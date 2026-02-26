@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>PDF Scaler</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h2>PDF Scale Tool</h2>
+
+    <input
+      type="file"
+      id="pdfInput"
+      multiple
+      accept="application/pdf"
+    /><br /><br />
+
+    <label>Scale (e.g. 0.75 or 75):</label>
+    <input type="text" id="scaleInput" value="0.75" /><br /><br />
+
+    <button onclick="scalePDFs()">Scale PDFs</button>
+
+    <p id="status"></p>
+
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
