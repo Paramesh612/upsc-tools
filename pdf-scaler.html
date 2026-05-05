@@ -1,116 +1,164 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>PDF Scaler</title>
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+      }
 
-        h2 {
-            margin-bottom: 20px;
-        }
+      h2 {
+        margin-bottom: 20px;
+      }
 
-        input, button {
-            margin: 8px 0;
-            padding: 6px;
-        }
+      input,
+      button {
+        margin: 8px 0;
+        padding: 6px;
+      }
 
-        button {
-            cursor: pointer;
-        }
+      button {
+        cursor: pointer;
+      }
 
-        #status {
-            margin-top: 15px;
-            font-weight: bold;
-        }
+      #status {
+        margin-top: 15px;
+        font-weight: bold;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <h2>PDF Scale Tool</h2>
 
-<h2>PDF Scale Tool</h2>
+    <input type="file" id="pdfInput" multiple accept="application/pdf" /><br />
 
-<input type="file" id="pdfInput" multiple accept="application/pdf"><br>
+    <label>Scale (e.g. 0.75 or 75):</label><br />
+    <input type="text" id="scaleInput" value="0.75" /><br />
+    <label>Placement:</label><br />
+    <select id="positionSelect">
+      <option value="top-left" selected>Top Left</option>
+      <option value="top-right">Top Right</option>
+      <option value="bottom-left">Bottom Left</option>
+      <option value="bottom-right">Bottom Right</option>
+      <option value="center">Center</option></select
+    ><br />
+    <button onclick="scalePDFs()">Scale PDFs</button>
 
-<label>Scale (e.g. 0.75 or 75):</label><br>
-<input type="text" id="scaleInput" value="0.75"><br>
+    <p id="status"></p>
 
-<button onclick="scalePDFs()">Scale PDFs</button>
+    <!-- PDF-LIB CDN -->
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 
-<p id="status"></p>
+    <script>
+      async function scalePDFs() {
+        const input = document.getElementById("pdfInput");
+        const scaleValue = document.getElementById("scaleInput").value.trim();
+        const status = document.getElementById("status");
 
-<!-- PDF-LIB CDN -->
-<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+        if (!input.files.length) {
+          alert("Please select at least one PDF.");
+          return;
+        }
 
-<script>
-async function scalePDFs() {
-    const input = document.getElementById('pdfInput');
-    const scaleValue = document.getElementById('scaleInput').value.trim();
-    const status = document.getElementById('status');
+        let scale = parseFloat(scaleValue);
 
-    if (!input.files.length) {
-        alert("Please select at least one PDF.");
-        return;
-    }
+        if (scale > 1) {
+          scale = scale / 100;
+        }
 
-    let scale = parseFloat(scaleValue);
+        if (isNaN(scale) || scale <= 0) {
+          alert("Invalid scale value.");
+          return;
+        }
 
-    if (scale > 1) {
-        scale = scale / 100;
-    }
+        status.innerText = "Processing...";
 
-    if (isNaN(scale) || scale <= 0) {
-        alert("Invalid scale value.");
-        return;
-    }
+        for (let file of input.files) {
+          const arrayBuffer = await file.arrayBuffer();
+          const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+          const newPdf = await PDFLib.PDFDocument.create();
 
-    status.innerText = "Processing...";
+          const pages = await newPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
 
-    for (let file of input.files) {
-        const arrayBuffer = await file.arrayBuffer();
-        const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
-        const newPdf = await PDFLib.PDFDocument.create();
-
-        const pages = await newPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
-
-        for (let page of pages) {
+          for (let page of pages) {
             const { width, height } = page.getSize();
-
-            const verticalShift = height - (height * scale);
 
             const embeddedPage = await newPdf.embedPage(page);
             const newPage = newPdf.addPage([width, height]);
 
+            const position = document.getElementById("positionSelect").value;
+
+            const scaledWidth = width * scale;
+            const scaledHeight = height * scale;
+
+            let x = 0;
+            let y = 0;
+
+            switch (position) {
+              case "center":
+                x = (width - scaledWidth) / 2;
+                y = (height - scaledHeight) / 2;
+                break;
+
+              case "top-left":
+                x = 0;
+                y = height - scaledHeight;
+                break;
+
+              case "top-right":
+                x = width - scaledWidth;
+                y = height - scaledHeight;
+                break;
+
+              case "bottom-left":
+                x = 0;
+                y = 0;
+                break;
+
+              case "bottom-right":
+                x = width - scaledWidth;
+                y = 0;
+                break;
+            }
+
             newPage.drawPage(embeddedPage, {
-                x: 0,
-                y: verticalShift,
-                xScale: scale,
-                yScale: scale,
+              x,
+              y,
+              xScale: scale,
+              yScale: scale,
             });
+          }
+
+          // ✅ MOVE THIS OUTSIDE THE PAGE LOOP
+          const pdfBytes = await newPdf.save();
+
+          const baseName = file.name.replace(".pdf", "");
+          // const outputName = `${baseName} - Scaled to ${Math.round(scale * 100)} percent.pdf`;
+          const position = document.getElementById("positionSelect").value;
+
+          const formattedPosition = position
+            .split("-")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+
+          const outputName = `${baseName} - Scaled to ${Math.round(scale * 100)} percent - ${formattedPosition}.pdf`;
+
+          downloadFile(pdfBytes, outputName);
         }
 
-        const pdfBytes = await newPdf.save();
+        status.innerText = "Done!";
+      }
 
-        const baseName = file.name.replace(".pdf", "");
-        const outputName = `${baseName} - Scaled to ${Math.round(scale * 100)} percent.pdf`;
-
-        downloadFile(pdfBytes, outputName);
-    }
-
-    status.innerText = "Done!";
-}
-
-function downloadFile(bytes, filename) {
-    const blob = new Blob([bytes], { type: "application/pdf" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = filename;
-    link.click();
-}
-</script>
-
-</body>
+      function downloadFile(bytes, filename) {
+        const blob = new Blob([bytes], { type: "application/pdf" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        link.click();
+      }
+    </script>
+  </body>
 </html>
