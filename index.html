@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC Tools</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #14171f;
+    --border: #1e2230;
+    --accent: #4f7cff;
+    --accent2: #a855f7;
+    --text: #e8eaf0;
+    --muted: #5a6080;
+    --card-hover: #181c28;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Background grid ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(79,124,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(79,124,255,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Header ── */
+  header {
+    position: relative;
+    z-index: 1;
+    padding: 60px 40px 0;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .eyebrow {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1.5px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #e8eaf0 30%, #8899cc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+  }
+
+  .tagline {
+    font-size: 0.95rem;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.6;
+    max-width: 420px;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    max-width: 900px;
+    margin: 40px auto 0;
+    padding: 0 40px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+  .divider hr {
+    border: none;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── Status bar ── */
+  .status-bar {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 14px 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    position: relative;
+    z-index: 1;
+  }
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--muted);
+    animation: pulse 2s infinite;
+  }
+  .status-dot.loaded { background: #22c55e; }
+  .status-dot.error { background: #ef4444; animation: none; }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ── Grid ── */
+  .grid-wrap {
+    flex: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 8px 40px 60px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  /* ── Card ── */
+  .tool-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .tool-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(79,124,255,0.4), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .tool-card:hover {
+    background: var(--card-hover);
+    border-color: rgba(79,124,255,0.3);
+    transform: translateY(-2px);
+  }
+  .tool-card:hover::before { opacity: 1; }
+
+  .card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    background: rgba(79,124,255,0.1);
+    border: 1px solid rgba(79,124,255,0.2);
+  }
+  .card-icon.purple {
+    background: rgba(168,85,247,0.1);
+    border-color: rgba(168,85,247,0.2);
+  }
+  .card-icon.green {
+    background: rgba(34,197,94,0.1);
+    border-color: rgba(34,197,94,0.2);
+  }
+  .card-icon.orange {
+    background: rgba(251,146,60,0.1);
+    border-color: rgba(251,146,60,0.2);
+  }
+
+  .card-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .card-file {
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.02em;
+  }
+
+  .card-arrow {
+    margin-top: auto;
+    font-size: 0.75rem;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.2s, gap 0.2s;
+  }
+  .tool-card:hover .card-arrow {
+    opacity: 1;
+    gap: 8px;
+  }
+
+  /* ── Skeleton ── */
+  .skeleton {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .skel-line {
+    height: 12px;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--border) 25%, #1e2535 50%, var(--border) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+  }
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* ── Empty / Error state ── */
+  .state-msg {
+    grid-column: 1 / -1;
+    padding: 40px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.8;
+  }
+  .state-msg a { color: var(--accent); text-decoration: none; }
+
+  /* ── Footer ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.72rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 600px) {
+    header, .divider, .status-bar, .grid-wrap { padding-left: 20px; padding-right: 20px; }
+    header { padding-top: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">UPSC Tools</div>
+  <h1>Your Study<br>Toolkit</h1>
+  <p class="tagline">A collection of tools built for UPSC preparation. Click any card to open.</p>
+</header>
+
+<div class="divider"><hr></div>
+
+<div class="status-bar">
+  <div class="status-dot" id="status-dot"></div>
+  <span id="status-text">Fetching tools from repository…</span>
+</div>
+
+<div class="grid-wrap">
+  <div class="tools-grid" id="grid">
+    <!-- skeletons -->
+    <div class="skeleton"><div class="skel-line" style="width:40px;height:40px;border-radius:10px"></div><div class="skel-line" style="width:70%"></div><div class="skel-line" style="width:40%"></div></div>
+    <div class="skeleton"><div class="skel-line" style="width:40px;height:40px;border-radius:10px"></div><div class="skel-line" style="width:60%"></div><div class="skel-line" style="width:45%"></div></div>
+    <div class="skeleton"><div class="skel-line" style="width:40px;height:40px;border-radius:10px"></div><div class="skel-line" style="width:75%"></div><div class="skel-line" style="width:35%"></div></div>
+  </div>
+</div>
+
+<footer>
+  Auto-updates when you add new HTML files to the repo &nbsp;·&nbsp;
+  <a href="https://github.com/Paramesh612/upsc-tools" style="color:#4f7cff;text-decoration:none">github.com/Paramesh612/upsc-tools</a>
+</footer>
+
+<script>
+const REPO = 'Paramesh612/upsc-tools';
+const BRANCH = 'main';
+const API_URL = `https://api.github.com/repos/${REPO}/contents/?ref=${BRANCH}`;
+
+// Map filename keywords → icon + color class
+const iconMap = [
+  { keys: ['quiz','mcq','question','insight','current'], icon: '📝', cls: '' },
+  { keys: ['pdf','scaler','convert','merge'], icon: '📄', cls: 'purple' },
+  { keys: ['timeline','history','event'], icon: '📅', cls: 'green' },
+  { keys: ['map','geo','place'], icon: '🗺️', cls: 'orange' },
+  { keys: ['note','study','read'], icon: '📚', cls: '' },
+  { keys: ['chart','graph','data','stat'], icon: '📊', cls: 'purple' },
+];
+
+function getIcon(filename) {
+  const lower = filename.toLowerCase();
+  for (const entry of iconMap) {
+    if (entry.keys.some(k => lower.includes(k))) return entry;
+  }
+  return { icon: '🔧', cls: '' };
+}
+
+function prettifyName(filename) {
+  return filename
+    .replace(/\.html?$/i, '')
+    .replace(/[-_]/g, ' ')
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/\b\w/g, c => c.toUpperCase())
+    .trim();
+}
+
+async function loadTools() {
+  const grid = document.getElementById('grid');
+  const dot = document.getElementById('status-dot');
+  const statusText = document.getElementById('status-text');
+
+  try {
+    const res = await fetch(API_URL, {
+      headers: { 'Accept': 'application/vnd.github.v3+json' }
+    });
+
+    if (!res.ok) throw new Error(`GitHub API: ${res.status}`);
+
+    const files = await res.json();
+    const htmlFiles = files.filter(f =>
+      f.type === 'file' &&
+      f.name.toLowerCase().endsWith('.html') &&
+      f.name.toLowerCase() !== 'index.html'
+    );
+
+    if (htmlFiles.length === 0) {
+      dot.className = 'status-dot error';
+      statusText.textContent = 'No HTML tools found in repository.';
+      grid.innerHTML = `<div class="state-msg">No HTML files found.<br>Add <code>.html</code> files to the repo and they'll appear here.</div>`;
+      return;
+    }
+
+    dot.className = 'status-dot loaded';
+    statusText.textContent = `${htmlFiles.length} tool${htmlFiles.length !== 1 ? 's' : ''} found`;
+
+    grid.innerHTML = '';
+    htmlFiles.forEach((file, i) => {
+      const name = prettifyName(file.name);
+      const { icon, cls } = getIcon(file.name);
+      const url = `https://paramesh612.github.io/upsc-tools/${file.name}`;
+
+      const card = document.createElement('a');
+      card.className = 'tool-card';
+      card.href = url;
+      card.target = '_blank';
+      card.rel = 'noopener';
+      card.style.animationDelay = `${i * 60}ms`;
+      card.innerHTML = `
+        <div class="card-icon ${cls}">${icon}</div>
+        <div class="card-name">${name}</div>
+        <div class="card-file">${file.name}</div>
+        <div class="card-arrow">Open tool <span>→</span></div>
+      `;
+      grid.appendChild(card);
+    });
+
+  } catch (err) {
+    dot.className = 'status-dot error';
+    statusText.textContent = 'Could not reach GitHub API';
+    grid.innerHTML = `
+      <div class="state-msg">
+        Couldn't load the tool list automatically.<br>
+        <a href="https://github.com/Paramesh612/upsc-tools">Visit the repository</a> to see files directly.<br><br>
+        <small style="color:#3a4060">${err.message}</small>
+      </div>`;
+  }
+}
+
+loadTools();
+</script>
+</body>
+</html>
