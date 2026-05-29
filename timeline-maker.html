@@ -1,413 +1,740 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simple Timeline Maker</title>
-    <style>
-      :root {
-        --primary-color: #4a6fa5;
-        --secondary-color: #6b8cae;
-        --accent-color: #ff7e5f;
-        --light-color: #f8f9fa;
-        --dark-color: #343a40;
-        --timeline-color: #4a6fa5;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Timeline Maker</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      }
+    :root {
+      --ink: #1a1714;
+      --ink-2: #4a4540;
+      --ink-3: #8a8178;
+      --paper: #faf8f4;
+      --paper-2: #f2ede4;
+      --paper-3: #e8e0d0;
+      --accent: #c85a2a;
+      --accent-light: #f5e8df;
+      --line: #d8d0c0;
+      --radius: 4px;
+      --radius-lg: 10px;
+    }
 
-      body {
-        background-color: var(--light-color);
-        color: var(--dark-color);
-        line-height: 1.6;
-        padding: 20px;
-      }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      padding: 40px 20px 80px;
+    }
 
-      .container {
-        max-width: 1000px;
-        margin: 0 auto;
-        padding: 20px;
-      }
+    /* ── Page header ── */
+    .page-header {
+      max-width: 720px;
+      margin: 0 auto 48px;
+      border-bottom: 1.5px solid var(--ink);
+      padding-bottom: 20px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .page-header h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(32px, 5vw, 48px);
+      line-height: 1;
+      letter-spacing: -0.5px;
+    }
+    .page-header h1 em { font-style: italic; color: var(--accent); }
+    .event-count {
+      font-size: 13px;
+      color: var(--ink-3);
+      font-weight: 300;
+      white-space: nowrap;
+      padding-bottom: 4px;
+    }
 
-      h1 {
-        text-align: center;
-        margin-bottom: 30px;
-        color: var(--primary-color);
-      }
+    /* ── Form card ── */
+    .form-card {
+      max-width: 720px;
+      margin: 0 auto 16px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 24px 28px;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 6px;
+    }
+    input[type=text], input[type=number], textarea {
+      width: 100%;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      color: var(--ink);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 9px 12px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(200,90,42,0.12);
+    }
+    input.error { border-color: #c0392b; }
+    textarea { resize: vertical; min-height: 72px; }
 
-      .input-section {
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        margin-bottom: 30px;
-      }
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
 
-      .form-group {
-        margin-bottom: 15px;
-      }
+    /* ── Toolbar (export row) ── */
+    .toolbar {
+      max-width: 720px;
+      margin: 0 auto 28px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
 
-      label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: 600;
-        color: var(--primary-color);
-      }
+    /* ── Buttons ── */
+    .btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      border-radius: var(--radius);
+      padding: 9px 20px;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      white-space: nowrap;
+    }
+    .btn-primary { background: var(--ink); color: var(--paper); }
+    .btn-primary:hover { background: var(--ink-2); transform: translateY(-1px); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink-2);
+      border: 1px solid var(--line);
+    }
+    .btn-ghost:hover { background: var(--paper-2); border-color: var(--ink-3); }
+    .btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .btn-sm {
+      font-size: 13px;
+      padding: 7px 14px;
+    }
+    /* filtered state: accent border on export buttons */
+    .btn-ghost.filtered {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .btn-ghost.filtered:hover { background: var(--accent-light); }
 
-      input,
-      textarea {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 16px;
-      }
+    /* ── Filter bar ── */
+    .filter-bar {
+      max-width: 720px;
+      margin: 0 auto 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .filter-bar .field-inline { display: flex; align-items: center; gap: 7px; }
+    .filter-bar label { font-size: 12px; color: var(--ink-3); font-weight: 500; white-space: nowrap; }
+    .filter-bar input[type=text] { min-width: 160px; flex: 1; font-size: 13px; padding: 7px 10px; }
+    .filter-bar input[type=number] { width: 80px; font-size: 13px; padding: 7px 10px; }
+    .sort-toggle {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 7px 12px;
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      color: var(--ink-2);
+      cursor: pointer;
+      display: flex; align-items: center; gap: 5px;
+      font-family: 'DM Sans', sans-serif;
+      white-space: nowrap;
+    }
+    .sort-toggle:hover { border-color: var(--ink-3); background: var(--paper-2); }
+    .sort-toggle svg { width: 13px; height: 13px; }
 
-      textarea {
-        min-height: 80px;
-        resize: vertical;
-      }
+    /* clear filters pill */
+    .clear-filters-row {
+      max-width: 720px;
+      margin: 0 auto 20px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+    .clear-filters-row.visible { display: flex; }
+    .filter-active-label {
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 500;
+    }
+    .btn-clear-filters {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 10px;
+      background: var(--accent-light);
+      border: 1px solid var(--accent);
+      border-radius: 20px;
+      color: var(--accent);
+      cursor: pointer;
+      display: inline-flex; align-items: center; gap: 5px;
+      transition: background 0.15s;
+    }
+    .btn-clear-filters:hover { background: #efd5c6; }
+    .btn-clear-filters svg { width: 12px; height: 12px; }
 
-      button {
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: background-color 0.3s;
-        margin-right: 10px;
-        margin-bottom: 10px;
-      }
+    /* ── Timeline ── */
+    .timeline-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .tl-spine {
+      position: absolute;
+      left: 16px;
+      top: 0; bottom: 0;
+      width: 1px;
+      background: var(--line);
+    }
+    .tl-event {
+      position: relative;
+      padding-left: 52px;
+      margin-bottom: 20px;
+      animation: slideIn 0.3s ease both;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .tl-dot {
+      position: absolute;
+      left: 10px;
+      top: 18px;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: var(--paper);
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 0 3px var(--paper);
+    }
+    .tl-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .tl-card:hover { border-color: var(--ink-3); box-shadow: 0 2px 12px rgba(26,23,20,0.06); }
+    .tl-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .tl-year {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      color: var(--accent);
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .tl-event-title {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.4;
+      flex: 1;
+      padding-top: 3px;
+    }
+    .tl-desc {
+      font-size: 14px;
+      color: var(--ink-2);
+      margin-top: 8px;
+      line-height: 1.65;
+      font-weight: 300;
+    }
+    .del-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--ink-3);
+      padding: 2px 4px;
+      border-radius: var(--radius);
+      flex-shrink: 0;
+      transition: color 0.15s, background 0.15s;
+    }
+    .del-btn:hover { color: #c0392b; background: #fdecea; }
+    .del-btn svg { width: 16px; height: 16px; display: block; }
 
-      button:hover {
-        background-color: var(--secondary-color);
-      }
+    .tl-empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--ink-3);
+      font-size: 15px;
+      font-weight: 300;
+    }
+    .tl-empty span { display: block; font-family: 'DM Serif Display', serif; font-size: 36px; color: var(--line); margin-bottom: 10px; }
 
-      .btn-danger {
-        background-color: #dc3545;
-      }
+    /* ── Danger zone ── */
+    .danger-zone {
+      max-width: 720px;
+      margin: 48px auto 0;
+      border: 1px dashed var(--line);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .danger-zone summary {
+      list-style: none;
+      padding: 12px 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      cursor: pointer;
+      user-select: none;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .danger-zone summary::-webkit-details-marker { display: none; }
+    .danger-zone summary:hover { color: var(--ink-2); background: var(--paper-2); }
+    .danger-inner {
+      padding: 16px 20px 20px;
+      border-top: 1px dashed var(--line);
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .danger-inner p { font-size: 13px; color: var(--ink-3); font-weight: 300; }
+    .btn-danger {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px; font-weight: 500;
+      border: 1px solid #e74c3c;
+      border-radius: var(--radius);
+      padding: 7px 16px;
+      background: transparent;
+      color: #c0392b;
+      cursor: pointer;
+      display: flex; align-items: center; gap: 6px;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+    .btn-danger:hover { background: #fdecea; }
+    .btn-danger svg { width: 14px; height: 14px; }
 
-      .btn-danger:hover {
-        background-color: #c82333;
-      }
+    /* ── Modal ── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(26,23,20,0.5);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 100; padding: 20px;
+    }
+    .modal-box {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: 28px 28px 24px;
+      max-width: 360px; width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      animation: popIn 0.2s ease;
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .modal-box h3 { font-family: 'DM Serif Display', serif; font-size: 20px; margin-bottom: 8px; }
+    .modal-box p { font-size: 14px; color: var(--ink-2); font-weight: 300; line-height: 1.6; margin-bottom: 20px; }
+    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+    .btn-modal-cancel {
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+      border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 8px 18px; background: transparent; color: var(--ink-2); cursor: pointer;
+    }
+    .btn-modal-cancel:hover { background: var(--paper-2); }
+    .btn-modal-confirm {
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+      border: none; border-radius: var(--radius); padding: 8px 18px;
+      background: #c0392b; color: #fff; cursor: pointer;
+    }
+    .btn-modal-confirm:hover { background: #a93226; }
 
-      .btn-success {
-        background-color: #28a745;
-      }
+    /* ── PNG snapshot (off-screen) ── */
+    #snapshot-area {
+      position: fixed; left: -9999px; top: 0;
+      width: 680px;
+      background: #faf8f4;
+      padding: 48px 56px 56px;
+      font-family: 'DM Sans', sans-serif;
+    }
+    #snapshot-area .sn-header { border-bottom: 2px solid #1a1714; padding-bottom: 16px; margin-bottom: 36px; }
+    #snapshot-area .sn-title { font-family: 'DM Serif Display', serif; font-size: 40px; line-height: 1; color: #1a1714; }
+    #snapshot-area .sn-title em { font-style: italic; color: #c85a2a; }
+    #snapshot-area .sn-subtitle { font-size: 13px; color: #8a8178; margin-top: 6px; font-weight: 300; }
+    #snapshot-area .sn-track { position: relative; padding-left: 36px; }
+    #snapshot-area .sn-spine { position: absolute; left: 7px; top: 4px; bottom: 4px; width: 1px; background: #d8d0c0; }
+    #snapshot-area .sn-event { position: relative; margin-bottom: 18px; }
+    #snapshot-area .sn-dot { position: absolute; left: -30px; top: 14px; width: 13px; height: 13px; border-radius: 50%; background: #faf8f4; border: 2px solid #c85a2a; }
+    #snapshot-area .sn-card { background: #ffffff; border: 1px solid #d8d0c0; border-radius: 10px; padding: 16px 20px; }
+    #snapshot-area .sn-year { font-family: 'DM Serif Display', serif; font-size: 22px; color: #c85a2a; line-height: 1; margin-bottom: 4px; }
+    #snapshot-area .sn-event-title { font-size: 16px; font-weight: 500; color: #1a1714; line-height: 1.4; }
+    #snapshot-area .sn-desc { font-size: 13px; color: #4a4540; margin-top: 7px; line-height: 1.6; font-weight: 300; }
+    #snapshot-area .sn-footer { margin-top: 36px; padding-top: 14px; border-top: 1px solid #d8d0c0; font-size: 11px; color: #8a8178; font-weight: 300; letter-spacing: 0.04em; }
+  </style>
+</head>
+<body>
 
-      .btn-success:hover {
-        background-color: #218838;
-      }
+<header class="page-header">
+  <h1>My <em>Timeline</em></h1>
+  <span class="event-count" id="event-count"></span>
+</header>
 
-      .timeline-container {
-        position: relative;
-        padding: 20px 0;
-        background-color: white;
-      }
-
-      .timeline {
-        position: relative;
-        max-width: 800px;
-        margin: 0 auto;
-      }
-
-      .timeline::after {
-        content: "";
-        position: absolute;
-        width: 4px;
-        background-color: var(--timeline-color);
-        top: 0;
-        bottom: 0;
-        left: 50%;
-        margin-left: -2px;
-        border-radius: 2px;
-      }
-
-      .timeline-item {
-        padding: 10px 40px;
-        position: relative;
-        width: 50%;
-        opacity: 1;
-        background-color: white;
-        animation: fadeIn 0.5s forwards;
-      }
-
-      @keyframes fadeIn {
-        to {
-          opacity: 1;
-        }
-      }
-
-      .timeline-item::after {
-        content: "";
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        background-color: white;
-        border: 4px solid var(--accent-color);
-        border-radius: 50%;
-        top: 15px;
-        z-index: 1;
-      }
-
-      .left {
-        left: 0;
-      }
-
-      .right {
-        left: 50%;
-      }
-
-      .left::after {
-        right: -12px;
-      }
-
-      .right::after {
-        left: -12px;
-      }
-
-      .timeline-content {
-        padding: 20px;
-        background-color: white !important;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        position: relative;
-        color: black !important;
-        opacity: 1 !important;
-        will-change: transform;
-        border: 1px solid #333; /* <-- Add this line */
-      }
-
-      .timeline-year {
-        font-weight: bold;
-        color: var(--accent-color);
-        margin-bottom: 5px;
-        font-size: 18px;
-      }
-
-      .timeline-description {
-        color: var(--dark-color);
-      }
-
-      .delete-btn {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: none;
-        border: none;
-        color: #dc3545;
-        cursor: pointer;
-        font-size: 16px;
-        padding: 5px;
-      }
-
-      .empty-state {
-        text-align: center;
-        padding: 40px;
-        color: #6c757d;
-      }
-
-      .button-group {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 15px;
-      }
-
-      @media screen and (max-width: 768px) {
-        .timeline::after {
-          left: 31px;
-        }
-
-        .timeline-item {
-          width: 100%;
-          padding-left: 70px;
-          padding-right: 25px;
-        }
-
-        .timeline-item::after {
-          left: 21px;
-        }
-
-        .left::after,
-        .right::after {
-          left: 21px;
-        }
-
-        .right {
-          left: 0;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Simple Timeline Maker</h1>
-
-      <div class="input-section">
-        <div class="form-group">
-          <label for="year">Year</label>
-          <input
-            type="number"
-            id="year"
-            placeholder="Enter year (e.g., 2023)"
-          />
-        </div>
-        <div class="form-group">
-          <label for="description">Description</label>
-          <textarea
-            id="description"
-            placeholder="Enter event description"
-          ></textarea>
-        </div>
-        <div class="button-group">
-          <button id="add-btn">Add to Timeline</button>
-          <button id="clear-btn" class="btn-danger">Clear All</button>
-          <button id="save-btn" class="btn-success">Save as PNG</button>
-        </div>
-      </div>
-
-      <div class="timeline-container" id="timeline-container">
-        <div class="timeline" id="timeline"></div>
-      </div>
+<!-- Add event form -->
+<div class="form-card">
+  <div class="form-grid">
+    <div class="field">
+      <label for="inp-year">Year</label>
+      <input type="number" id="inp-year" placeholder="2024" />
     </div>
+    <div class="field">
+      <label for="inp-title">Event title</label>
+      <input type="text" id="inp-title" placeholder="What happened?" />
+    </div>
+  </div>
+  <div class="field">
+    <label for="inp-desc">Description <span style="font-weight:300;text-transform:none;letter-spacing:0;">(optional)</span></label>
+    <textarea id="inp-desc" placeholder="Add more detail…"></textarea>
+  </div>
+  <div class="form-actions">
+    <button class="btn btn-primary" id="btn-add">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Add event
+    </button>
+  </div>
+</div>
 
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const yearInput = document.getElementById("year");
-        const descriptionInput = document.getElementById("description");
-        const addBtn = document.getElementById("add-btn");
-        const clearBtn = document.getElementById("clear-btn");
-        const saveBtn = document.getElementById("save-btn");
-        const timeline = document.getElementById("timeline");
-        const timelineContainer = document.getElementById("timeline-container");
+<!-- Export toolbar -->
+<div class="toolbar">
+  <button class="btn btn-ghost btn-sm" id="btn-png">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+    <span id="btn-png-label">Save as PNG</span>
+  </button>
+  <button class="btn btn-ghost btn-sm" id="btn-json">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    <span id="btn-json-label">Export JSON</span>
+  </button>
+</div>
 
-        let events = JSON.parse(localStorage.getItem("timelineEvents")) || [];
+<!-- Filter bar -->
+<div class="filter-bar">
+  <div class="field-inline" style="flex:1;">
+    <label>Search</label>
+    <input type="text" id="inp-search" placeholder="Filter events…" />
+  </div>
+  <div class="field-inline">
+    <label>From</label>
+    <input type="number" id="inp-from" placeholder="Year" />
+  </div>
+  <div class="field-inline">
+    <label>To</label>
+    <input type="number" id="inp-to" placeholder="Year" />
+  </div>
+  <button class="sort-toggle" id="btn-sort">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><polyline points="3 6 4 5 5 6"/><polyline points="3 18 4 19 5 18"/></svg>
+    <span id="sort-label">Oldest first</span>
+  </button>
+</div>
 
-        renderTimeline();
+<!-- Clear filters pill — visible only when filters are active -->
+<div class="clear-filters-row" id="clear-filters-row">
+  <span class="filter-active-label">Filters active</span>
+  <button class="btn-clear-filters" id="btn-clear-filters">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    Clear filters
+  </button>
+</div>
 
-        addBtn.addEventListener("click", function () {
-          const year = yearInput.value.trim();
-          const description = descriptionInput.value.trim();
+<!-- Timeline -->
+<div class="timeline-wrap">
+  <div class="tl-spine"></div>
+  <div id="tl-events"></div>
+</div>
 
-          if (!year || !description) {
-            alert("Please enter both year and description");
-            return;
-          }
+<!-- Danger zone -->
+<details class="danger-zone">
+  <summary>
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    Danger zone
+  </summary>
+  <div class="danger-inner">
+    <p>Permanently delete all timeline events. This cannot be undone.</p>
+    <button class="btn-danger" id="btn-clear">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+      Clear all events
+    </button>
+  </div>
+</details>
 
-          events.push({ year: parseInt(year), description });
-          saveEvents();
-          renderTimeline();
+<div id="modal-mount"></div>
+<div id="snapshot-area"></div>
 
-          yearInput.value = "";
-          descriptionInput.value = "";
-          yearInput.focus();
+<script>
+(function () {
+  let events = [];
+  let sortAsc = true;
+
+  try { events = JSON.parse(localStorage.getItem('tl_app') || '[]'); } catch (e) {}
+
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+  const inpYear  = $('inp-year');
+  const inpTitle = $('inp-title');
+  const inpDesc  = $('inp-desc');
+  const tlEvents = $('tl-events');
+  const countEl  = $('event-count');
+
+  // ── Add event ──
+  $('btn-add').addEventListener('click', addEvent);
+  [inpYear, inpTitle].forEach(el => el.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); addEvent(); }
+  }));
+
+  function addEvent() {
+    const year  = parseInt(inpYear.value);
+    const title = inpTitle.value.trim();
+    inpYear.classList.toggle('error', !year);
+    inpTitle.classList.toggle('error', !title);
+    if (!year || !title) return;
+    events.push({ id: Date.now(), year, title, desc: inpDesc.value.trim() });
+    save(); render();
+    inpYear.value = ''; inpTitle.value = ''; inpDesc.value = '';
+    inpYear.focus();
+  }
+
+  // ── Sort / filter ──
+  $('btn-sort').addEventListener('click', () => {
+    sortAsc = !sortAsc;
+    $('sort-label').textContent = sortAsc ? 'Oldest first' : 'Newest first';
+    render();
+  });
+
+  ['inp-search','inp-from','inp-to'].forEach(id => $(id).addEventListener('input', render));
+
+  // ── Clear filters ──
+  $('btn-clear-filters').addEventListener('click', () => {
+    $('inp-search').value = '';
+    $('inp-from').value = '';
+    $('inp-to').value = '';
+    render();
+  });
+
+  function isFiltered() {
+    return $('inp-search').value.trim() !== '' ||
+           $('inp-from').value.trim() !== '' ||
+           $('inp-to').value.trim() !== '';
+  }
+
+  function sorted() {
+    return [...events].sort((a,b) => sortAsc ? a.year - b.year : b.year - a.year);
+  }
+
+  function filtered() {
+    const q    = $('inp-search').value.trim().toLowerCase();
+    const from = parseInt($('inp-from').value) || -Infinity;
+    const to   = parseInt($('inp-to').value)   ||  Infinity;
+    return sorted()
+      .filter(e => e.year >= from && e.year <= to)
+      .filter(e => !q || e.title.toLowerCase().includes(q) || (e.desc||'').toLowerCase().includes(q) || String(e.year).includes(q));
+  }
+
+  // ── Update export button labels based on filter state ──
+  function updateExportButtons(filterOn) {
+    const pngBtn  = $('btn-png');
+    const jsonBtn = $('btn-json');
+    $('btn-png-label').textContent  = filterOn ? 'Save filtered PNG'  : 'Save as PNG';
+    $('btn-json-label').textContent = filterOn ? 'Export filtered JSON' : 'Export JSON';
+    pngBtn.classList.toggle('filtered', filterOn);
+    jsonBtn.classList.toggle('filtered', filterOn);
+    // clear filters row
+    const cfr = $('clear-filters-row');
+    cfr.classList.toggle('visible', filterOn);
+  }
+
+  // ── Render ──
+  function render() {
+    const list      = filtered();
+    const filterOn  = isFiltered();
+    updateExportButtons(filterOn);
+
+    countEl.textContent = events.length
+      ? `${list.length} of ${events.length} event${events.length === 1 ? '' : 's'}`
+      : '';
+
+    if (!list.length) {
+      tlEvents.innerHTML = `<div class="tl-empty"><span>◌</span>${events.length ? 'No events match your filters.' : 'No events yet — add your first one above.'}</div>`;
+      return;
+    }
+
+    tlEvents.innerHTML = list.map(ev => `
+      <div class="tl-event">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-card-top">
+            <div style="display:flex;align-items:baseline;gap:14px;flex:1;">
+              <span class="tl-year">${ev.year}</span>
+              <span class="tl-event-title">${esc(ev.title)}</span>
+            </div>
+            <button class="del-btn" data-del="${ev.id}" aria-label="Delete event">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          ${ev.desc ? `<p class="tl-desc">${esc(ev.desc)}</p>` : ''}
+        </div>
+      </div>`).join('');
+
+    tlEvents.querySelectorAll('[data-del]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = parseInt(btn.dataset.del);
+        const ev = events.find(e => e.id === id);
+        showModal(`Delete "${ev.title}"?`, 'This event will be permanently removed.', 'Delete', () => {
+          events = events.filter(e => e.id !== id); save(); render();
         });
-
-        clearBtn.addEventListener("click", function () {
-          if (confirm("Are you sure you want to clear all events?")) {
-            events = [];
-            saveEvents();
-            renderTimeline();
-          }
-        });
-
-        saveBtn.addEventListener("click", function () {
-          const originalText = saveBtn.textContent;
-          saveBtn.textContent = "Generating...";
-          saveBtn.disabled = true;
-
-          const deleteButtons = document.querySelectorAll(".delete-btn");
-          deleteButtons.forEach((btn) => (btn.style.display = "none"));
-
-          // Force opaque styling
-          timelineContainer.style.backgroundColor = "#ffffff";
-          timelineContainer.style.opacity = "1";
-
-          document.querySelectorAll(".timeline-content").forEach((el) => {
-            el.style.backgroundColor = "#ffffff";
-            el.style.opacity = "1";
-            el.style.color = "#000000";
-          });
-
-          html2canvas(timelineContainer, {
-            scale: 2,
-            backgroundColor: "#ffffff",
-            logging: false,
-            useCORS: true,
-            allowTaint: true,
-            letterRendering: true,
-          })
-            .then((canvas) => {
-              const link = document.createElement("a");
-              const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-              link.download = `timeline-${timestamp}.png`;
-              link.href = canvas.toDataURL("image/png", 1.0);
-              link.click();
-
-              deleteButtons.forEach((btn) => (btn.style.display = "block"));
-              saveBtn.textContent = originalText;
-              saveBtn.disabled = false;
-            })
-            .catch((err) => {
-              console.error("Error generating image:", err);
-              alert("Error generating image. Please try again.");
-              deleteButtons.forEach((btn) => (btn.style.display = "block"));
-              saveBtn.textContent = originalText;
-              saveBtn.disabled = false;
-            });
-        });
-
-        function renderTimeline() {
-          timeline.innerHTML = "";
-
-          if (events.length === 0) {
-            timeline.innerHTML =
-              '<div class="empty-state">No events yet. Add some events to see them on the timeline!</div>';
-            return;
-          }
-
-          events.sort((a, b) => a.year - b.year);
-
-          events.forEach((event, index) => {
-            const timelineItem = document.createElement("div");
-            timelineItem.className = `timeline-item ${
-              index % 2 === 0 ? "left" : "right"
-            }`;
-
-            timelineItem.innerHTML = `
-              <div class="timeline-content">
-                <button class="delete-btn" data-index="${index}">×</button>
-                <div class="timeline-year">${event.year}</div>
-                <div class="timeline-description">${event.description}</div>
-              </div>
-            `;
-
-            timeline.appendChild(timelineItem);
-
-            timelineItem
-              .querySelector(".delete-btn")
-              .addEventListener("click", function () {
-                const indexToDelete = parseInt(this.getAttribute("data-index"));
-                events.splice(indexToDelete, 1);
-                saveEvents();
-                renderTimeline();
-              });
-          });
-        }
-
-        function saveEvents() {
-          localStorage.setItem("timelineEvents", JSON.stringify(events));
-        }
       });
-    </script>
-  </body>
+    });
+  }
+
+  // ── Clear all ──
+  $('btn-clear').addEventListener('click', () => {
+    if (!events.length) return;
+    showModal('Clear all events?', 'Every event will be permanently deleted. This cannot be undone.', 'Clear all', () => {
+      events = []; save(); render();
+    });
+  });
+
+  // ── JSON export (filtered or all) ──
+  $('btn-json').addEventListener('click', () => {
+    const list = isFiltered() ? filtered() : sorted();
+    if (!list.length) { alert('No events to export.'); return; }
+    const blob = new Blob([JSON.stringify(list, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = isFiltered() ? 'timeline-filtered.json' : 'timeline.json';
+    a.click();
+  });
+
+  // ── PNG export (filtered or all) ──
+  $('btn-png').addEventListener('click', () => {
+    const list = isFiltered() ? filtered() : sorted();
+    if (!list.length) { alert('No events to export.'); return; }
+
+    const btn = $('btn-png');
+    const origLabel = $('btn-png-label').textContent;
+    $('btn-png-label').textContent = 'Generating…';
+    btn.disabled = true;
+
+    const filterOn = isFiltered();
+    const snap = $('snapshot-area');
+    const date = new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+    const subtitle = filterOn
+      ? `${list.length} of ${events.length} event${events.length===1?'':'s'} (filtered) · ${date}`
+      : `${list.length} event${list.length===1?'':'s'} · exported ${date}`;
+
+    snap.innerHTML = `
+      <div class="sn-header">
+        <div class="sn-title">My <em>Timeline</em></div>
+        <div class="sn-subtitle">${subtitle}</div>
+      </div>
+      <div class="sn-track">
+        <div class="sn-spine"></div>
+        ${list.map(ev => `
+          <div class="sn-event">
+            <div class="sn-dot"></div>
+            <div class="sn-card">
+              <div class="sn-year">${ev.year}</div>
+              <div class="sn-event-title">${esc(ev.title)}</div>
+              ${ev.desc ? `<div class="sn-desc">${esc(ev.desc)}</div>` : ''}
+            </div>
+          </div>`).join('')}
+      </div>
+      <div class="sn-footer">Created with Timeline Maker</div>`;
+
+    setTimeout(() => {
+      html2canvas(snap, {
+        scale: 2,
+        backgroundColor: '#faf8f4',
+        logging: false,
+        useCORS: true,
+        onclone: doc => {
+          const el = doc.getElementById('snapshot-area');
+          el.style.position = 'static';
+          el.style.left = '0';
+        }
+      }).then(canvas => {
+        const a = document.createElement('a');
+        a.download = filterOn ? `timeline-filtered-${Date.now()}.png` : `timeline-${Date.now()}.png`;
+        a.href = canvas.toDataURL('image/png', 1.0);
+        a.click();
+        snap.innerHTML = '';
+        $('btn-png-label').textContent = origLabel;
+        btn.disabled = false;
+      }).catch(() => {
+        alert('Error generating PNG. Please try again.');
+        $('btn-png-label').textContent = origLabel;
+        btn.disabled = false;
+      });
+    }, 150);
+  });
+
+  // ── Modal ──
+  function showModal(title, msg, confirmLabel, onConfirm) {
+    const mount = $('modal-mount');
+    mount.innerHTML = `
+      <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-box">
+          <h3>${esc(title)}</h3>
+          <p>${esc(msg)}</p>
+          <div class="modal-actions">
+            <button class="btn-modal-cancel" id="m-cancel">Cancel</button>
+            <button class="btn-modal-confirm" id="m-confirm">${esc(confirmLabel)}</button>
+          </div>
+        </div>
+      </div>`;
+    $('m-cancel').addEventListener('click', () => mount.innerHTML = '');
+    $('m-confirm').addEventListener('click', () => { mount.innerHTML = ''; onConfirm(); });
+    $('modal-overlay').addEventListener('click', e => { if (e.target === $('modal-overlay')) mount.innerHTML = ''; });
+  }
+
+  function save() { try { localStorage.setItem('tl_app', JSON.stringify(events)); } catch(e) {} }
+
+  render();
+})();
+</script>
+</body>
 </html>
