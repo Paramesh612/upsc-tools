@@ -23,24 +23,9 @@
       --radius-lg: 10px;
     }
 
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--paper);
-      color: var(--ink);
-      min-height: 100vh;
-      padding: 40px 20px 80px;
-    }
+    body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; padding: 40px 20px 80px; }
 
-    .page-header {
-      max-width: 720px;
-      margin: 0 auto 48px;
-      border-bottom: 1.5px solid var(--ink);
-      padding-bottom: 20px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 16px;
-    }
+    .page-header { max-width: 720px; margin: 0 auto 48px; border-bottom: 1.5px solid var(--ink); padding-bottom: 20px; display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
     .page-header h1 { font-family: 'DM Serif Display', serif; font-size: clamp(32px, 5vw, 48px); line-height: 1; letter-spacing: -0.5px; }
     .page-header h1 em { font-style: italic; color: var(--accent); }
     .event-count { font-size: 13px; color: var(--ink-3); font-weight: 300; white-space: nowrap; padding-bottom: 4px; }
@@ -48,11 +33,7 @@
     .form-card { max-width: 720px; margin: 0 auto 16px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 24px 28px; }
     .form-grid { display: grid; grid-template-columns: 120px 1fr; gap: 14px; margin-bottom: 14px; }
     .field label { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 6px; }
-    input[type=text], input[type=number], textarea {
-      width: 100%; font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--ink);
-      background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
-      padding: 9px 12px; outline: none; transition: border-color 0.2s, box-shadow 0.2s;
-    }
+    input[type=text], input[type=number], textarea { width: 100%; font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 9px 12px; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
     input:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(200,90,42,0.12); }
     input.error { border-color: #c0392b; }
     textarea { resize: vertical; min-height: 72px; }
@@ -70,18 +51,10 @@
     .btn-sm { font-size: 13px; padding: 7px 14px; }
     .btn-ghost.filtered { border-color: var(--accent); color: var(--accent); }
     .btn-ghost.filtered:hover { background: var(--accent-light); }
-
-    /* import button accent */
     .btn-import { color: #2a7ac8; border-color: #a8c8e8; }
     .btn-import:hover { background: #edf4fc; border-color: #2a7ac8; }
 
-    /* toast */
-    .toast {
-      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
-      background: var(--ink); color: var(--paper); font-size: 13px; font-weight: 400;
-      padding: 10px 20px; border-radius: 20px; white-space: nowrap;
-      opacity: 0; transition: opacity 0.2s, transform 0.2s; pointer-events: none; z-index: 200;
-    }
+    .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--ink); color: var(--paper); font-size: 13px; font-weight: 400; padding: 10px 20px; border-radius: 20px; white-space: nowrap; opacity: 0; transition: opacity 0.2s, transform 0.2s; pointer-events: none; z-index: 200; }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .toast.success { background: #1e6e3e; }
     .toast.error { background: #c0392b; }
@@ -271,7 +244,16 @@
   let sortAsc = true;
   let editingId = null;
 
-  try { events = JSON.parse(localStorage.getItem('tl_app') || '[]'); } catch (e) {}
+  // ID is always a string — no parseInt confusion ever
+  function makeId() {
+    return Math.random().toString(36).slice(2) + Date.now().toString(36);
+  }
+
+  try {
+    const stored = JSON.parse(localStorage.getItem('tl_app') || '[]');
+    // Normalise any legacy numeric IDs to strings on load
+    events = stored.map(e => ({ ...e, id: String(e.id) }));
+  } catch (e) {}
 
   const $ = id => document.getElementById(id);
   const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -304,7 +286,7 @@
     inpYear.classList.toggle('error', !year);
     inpTitle.classList.toggle('error', !title);
     if (!year || !title) return;
-    events.push({ id: Date.now(), year, title, desc: inpDesc.value.trim() });
+    events.push({ id: makeId(), year, title, desc: inpDesc.value.trim() });
     save(); render();
     inpYear.value = ''; inpTitle.value = ''; inpDesc.value = '';
     inpYear.focus();
@@ -319,27 +301,21 @@
     const reader = new FileReader();
     reader.onload = evt => {
       let parsed;
-      try {
-        parsed = JSON.parse(evt.target.result);
-      } catch {
-        showToast('Invalid JSON file.', 'error');
-        e.target.value = '';
-        return;
-      }
+      try { parsed = JSON.parse(evt.target.result); }
+      catch { showToast('Invalid JSON file.', 'error'); e.target.value = ''; return; }
+
       if (!Array.isArray(parsed)) {
-        showToast('JSON must be an array of events.', 'error');
-        e.target.value = '';
-        return;
+        showToast('JSON must be an array of events.', 'error'); e.target.value = ''; return;
       }
-      // validate & normalise each item
+
       const valid = parsed.filter(item => item && typeof item === 'object' && item.title && item.year);
       if (!valid.length) {
-        showToast('No valid events found in file.', 'error');
-        e.target.value = '';
-        return;
+        showToast('No valid events found in file.', 'error'); e.target.value = ''; return;
       }
+
+      // Always assign a fresh string ID — avoids any parseInt/float mismatch
       const incoming = valid.map(item => ({
-        id: Date.now() + Math.random(),
+        id: makeId(),
         year: parseInt(item.year),
         title: String(item.title).trim(),
         desc: String(item.desc || '').trim()
@@ -350,21 +326,12 @@
           `Import ${incoming.length} event${incoming.length === 1 ? '' : 's'}?`,
           `You already have ${events.length} event${events.length === 1 ? '' : 's'}. Choose how to import:`,
           'Merge (keep existing)',
-          () => {
-            events = [...events, ...incoming];
-            save(); render();
-            showToast(`Added ${incoming.length} event${incoming.length === 1 ? '' : 's'}.`, 'success');
-          },
+          () => { events = [...events, ...incoming]; save(); render(); showToast(`Added ${incoming.length} event${incoming.length === 1 ? '' : 's'}.`, 'success'); },
           'Replace all',
-          () => {
-            events = incoming;
-            save(); render();
-            showToast(`Imported ${incoming.length} event${incoming.length === 1 ? '' : 's'}.`, 'success');
-          }
+          () => { events = incoming; save(); render(); showToast(`Imported ${incoming.length} event${incoming.length === 1 ? '' : 's'}.`, 'success'); }
         );
       } else {
-        events = incoming;
-        save(); render();
+        events = incoming; save(); render();
         showToast(`Imported ${incoming.length} event${incoming.length === 1 ? '' : 's'}.`, 'success');
       }
       e.target.value = '';
@@ -382,8 +349,7 @@
   ['inp-search','inp-from','inp-to'].forEach(id => $(id).addEventListener('input', render));
 
   $('btn-clear-filters').addEventListener('click', () => {
-    $('inp-search').value = ''; $('inp-from').value = ''; $('inp-to').value = '';
-    render();
+    $('inp-search').value = ''; $('inp-from').value = ''; $('inp-to').value = ''; render();
   });
 
   function isFiltered() {
@@ -431,10 +397,10 @@
               <span class="tl-event-title">${esc(ev.title)}</span>
             </div>
             <div class="card-actions">
-              <button class="icon-btn edit-btn" data-edit="${ev.id}" aria-label="Edit event" title="Edit">
+              <button class="icon-btn edit-btn" data-id="${ev.id}" data-action="edit" aria-label="Edit event" title="Edit">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
               </button>
-              <button class="icon-btn del" data-del="${ev.id}" aria-label="Delete event" title="Delete">
+              <button class="icon-btn del" data-id="${ev.id}" data-action="del" aria-label="Delete event" title="Delete">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>
             </div>
@@ -448,56 +414,58 @@
             </div>
             <textarea class="edit-desc" placeholder="Description (optional)">${esc(ev.desc||'')}</textarea>
             <div class="edit-actions">
-              <button class="btn-save" data-save="${ev.id}">Save changes</button>
-              <button class="btn-cancel-edit" data-cancel="${ev.id}">Cancel</button>
+              <button class="btn-save" data-id="${ev.id}" data-action="save">Save changes</button>
+              <button class="btn-cancel-edit" data-id="${ev.id}" data-action="cancel">Cancel</button>
             </div>
           </div>` : ''}
         </div>
       </div>`;
     }).join('');
 
-    tlEvents.querySelectorAll('[data-edit]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = parseInt(btn.dataset.edit);
-        editingId = editingId === id ? null : id;
-        render();
-        if (editingId) { const t = tlEvents.querySelector('.edit-title'); if (t) t.focus(); }
-      });
-    });
+    // Single delegated listener on the container
+    tlEvents.addEventListener('click', handleCardClick);
+  }
 
-    tlEvents.querySelectorAll('[data-save]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = parseInt(btn.dataset.save);
-        const card = btn.closest('.tl-card');
-        const newYear  = parseInt(card.querySelector('.edit-year').value);
-        const newTitle = card.querySelector('.edit-title').value.trim();
-        const newDesc  = card.querySelector('.edit-desc').value.trim();
-        if (!newYear || !newTitle) {
-          if (!newYear)  card.querySelector('.edit-year').classList.add('error');
-          if (!newTitle) card.querySelector('.edit-title').classList.add('error');
-          return;
-        }
-        const ev = events.find(e => e.id === id);
-        if (ev) { ev.year = newYear; ev.title = newTitle; ev.desc = newDesc; }
-        editingId = null; save(); render();
-      });
-    });
+  function handleCardClick(e) {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    const id     = btn.dataset.id;       // always a string
+    const action = btn.dataset.action;
 
-    tlEvents.querySelectorAll('[data-cancel]').forEach(btn => {
-      btn.addEventListener('click', () => { editingId = null; render(); });
-    });
+    if (action === 'edit') {
+      editingId = (editingId === id) ? null : id;
+      render();
+      if (editingId) { const t = tlEvents.querySelector('.edit-title'); if (t) t.focus(); }
+    }
 
-    tlEvents.querySelectorAll('[data-del]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = parseInt(btn.dataset.del);
-        const ev = events.find(e => e.id === id);
-        showModal(`Delete "${ev.title}"?`, 'This event will be permanently removed.', 'Delete', () => {
-          events = events.filter(e => e.id !== id);
-          if (editingId === id) editingId = null;
-          save(); render();
-        });
+    if (action === 'save') {
+      const card     = btn.closest('.tl-card');
+      const newYear  = parseInt(card.querySelector('.edit-year').value);
+      const newTitle = card.querySelector('.edit-title').value.trim();
+      const newDesc  = card.querySelector('.edit-desc').value.trim();
+      if (!newYear || !newTitle) {
+        if (!newYear)  card.querySelector('.edit-year').classList.add('error');
+        if (!newTitle) card.querySelector('.edit-title').classList.add('error');
+        return;
+      }
+      const ev = events.find(e => e.id === id);
+      if (ev) { ev.year = newYear; ev.title = newTitle; ev.desc = newDesc; }
+      editingId = null; save(); render();
+    }
+
+    if (action === 'cancel') {
+      editingId = null; render();
+    }
+
+    if (action === 'del') {
+      const ev = events.find(e => e.id === id);
+      if (!ev) return;
+      showModal(`Delete "${ev.title}"?`, 'This event will be permanently removed.', 'Delete', () => {
+        events = events.filter(e => e.id !== id);
+        if (editingId === id) editingId = null;
+        save(); render();
       });
-    });
+    }
   }
 
   // ── Clear all ──
@@ -546,7 +514,7 @@
     }, 150);
   });
 
-  // ── Modal (extended to support two actions for import) ──
+  // ── Modal ──
   function showModal(title, msg, confirmLabel, onConfirm, altLabel, onAlt) {
     const mount = $('modal-mount');
     const altBtn = altLabel
@@ -555,8 +523,7 @@
     mount.innerHTML = `
       <div class="modal-overlay" id="modal-overlay">
         <div class="modal-box">
-          <h3>${esc(title)}</h3>
-          <p>${esc(msg)}</p>
+          <h3>${esc(title)}</h3><p>${esc(msg)}</p>
           <div class="modal-actions">
             <button class="btn-modal-cancel" id="m-cancel">Cancel</button>
             ${altBtn}
