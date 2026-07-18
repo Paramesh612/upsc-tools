@@ -233,6 +233,13 @@
     height:4px;background:var(--paper-line);border-radius:2px;
   }
 
+  .dial-note{
+    font-family:'Inter',sans-serif;
+    font-size:11px;
+    color:#9a9482;
+    margin-top:6px;
+  }
+
   select{
     width:100%;
     font-family:'Inter',sans-serif;
@@ -358,8 +365,9 @@ Example: The mitochondria is the powerhouse of the cell. It generates most of th
 
     <div class="dial-row">
       <div class="dial-group">
-        <div class="dial-label"><span>Reading Speed</span><b id="speedVal">1.0x</b></div>
-        <input type="range" id="speedSlider" min="0.5" max="1.75" step="0.05" value="1">
+        <div class="dial-label"><span>Reading Speed</span><b id="speedVal">140 wpm</b></div>
+        <input type="range" id="speedSlider" min="60" max="220" step="5" value="140">
+        <div class="dial-note">Approximate — actual pace varies slightly by voice</div>
       </div>
       <div class="dial-group">
         <div class="dial-label"><span>Pause Between Sentences</span><b id="pauseVal">2.5s</b></div>
@@ -468,18 +476,76 @@ Example: The mitochondria is the powerhouse of the cell. It generates most of th
       if(v.default) opt.selected = true;
       voiceSelect.appendChild(opt);
     });
+    // Restore previously saved voice, if it's available in this browser.
+    if(savedSettings && savedSettings.voiceName){
+      const match = voices.findIndex(v => v.name === savedSettings.voiceName && v.lang === savedSettings.voiceLang);
+      if(match !== -1) voiceSelect.value = match;
+    }
   }
   loadVoices();
   if(speechSynthesis.onvoiceschanged !== undefined){
     speechSynthesis.onvoiceschanged = loadVoices;
   }
 
+  // Approximate mapping from words-per-minute to the browser's relative
+  // speech rate. Most engines speak ~160 wpm at rate = 1.0, so we scale
+  // around that baseline (still an approximation — actual wpm varies by voice).
+  const WPM_BASELINE = 160;
+  function wpmToRate(wpm){ return wpm / WPM_BASELINE; }
+
   speedSlider.addEventListener('input', () => {
-    speedVal.textContent = parseFloat(speedSlider.value).toFixed(2) + 'x';
+    speedVal.textContent = speedSlider.value + ' wpm';
+    saveSettings();
   });
   pauseSlider.addEventListener('input', () => {
     pauseVal.textContent = parseFloat(pauseSlider.value).toFixed(1) + 's';
+    saveSettings();
   });
+  voiceSelect.addEventListener('change', saveSettings);
+  repeatToggle.addEventListener('change', saveSettings);
+
+  // ---- Settings persistence (localStorage) ----
+  const SETTINGS_KEY = 'dictationDeskSettings';
+
+  function saveSettings(){
+    const selectedOpt = voiceSelect.options[voiceSelect.selectedIndex];
+    const settings = {
+      wpm: speedSlider.value,
+      pause: pauseSlider.value,
+      repeat: repeatToggle.checked,
+      voiceName: voices[voiceSelect.value] ? voices[voiceSelect.value].name : null,
+      voiceLang: voices[voiceSelect.value] ? voices[voiceSelect.value].lang : null
+    };
+    try{
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    }catch(e){ /* localStorage unavailable — silently skip */ }
+  }
+
+  function loadSettings(){
+    try{
+      const raw = localStorage.getItem(SETTINGS_KEY);
+      if(!raw) return null;
+      return JSON.parse(raw);
+    }catch(e){ return null; }
+  }
+
+  let savedSettings = loadSettings();
+
+  function applyNonVoiceSettings(){
+    if(!savedSettings) return;
+    if(savedSettings.wpm){
+      speedSlider.value = savedSettings.wpm;
+      speedVal.textContent = savedSettings.wpm + ' wpm';
+    }
+    if(savedSettings.pause !== undefined){
+      pauseSlider.value = savedSettings.pause;
+      pauseVal.textContent = parseFloat(savedSettings.pause).toFixed(1) + 's';
+    }
+    if(savedSettings.repeat !== undefined){
+      repeatToggle.checked = savedSettings.repeat;
+    }
+  }
+  applyNonVoiceSettings();
 
   // ---- Build practice view ----
   function renderSentences(){
@@ -549,7 +615,7 @@ Example: The mitochondria is the powerhouse of the cell. It generates most of th
     }
     synth.cancel();
     const utter = new SpeechSynthesisUtterance(sentences[currentIndex]);
-    utter.rate = parseFloat(speedSlider.value);
+    utter.rate = wpmToRate(parseFloat(speedSlider.value));
     const vIdx = voiceSelect.value;
     if(voices[vIdx]) utter.voice = voices[vIdx];
 
