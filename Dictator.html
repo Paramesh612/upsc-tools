@@ -442,13 +442,32 @@ Example: The mitochondria is the powerhouse of the cell. It generates most of th
   const synth = window.speechSynthesis;
 
   // ---- Word / sentence count on the paper ----
+  const TEXT_KEY = 'dictationDeskText';
+
+  function saveText(){
+    try{
+      localStorage.setItem(TEXT_KEY, textInput.value);
+    }catch(e){ /* localStorage unavailable — silently skip */ }
+  }
+
+  function loadText(){
+    try{
+      const saved = localStorage.getItem(TEXT_KEY);
+      if(saved) textInput.value = saved;
+    }catch(e){ /* localStorage unavailable — silently skip */ }
+  }
+  loadText();
+
   function updateCount(){
     const text = textInput.value.trim();
     const words = text ? text.split(/\s+/).length : 0;
     const s = splitSentences(text);
     wordCount.textContent = `${words} words · ${s.length} sentence${s.length===1?'':'s'}`;
   }
-  textInput.addEventListener('input', updateCount);
+  textInput.addEventListener('input', () => {
+    updateCount();
+    saveText();
+  });
   updateCount();
 
   // ---- Sentence splitting ----
