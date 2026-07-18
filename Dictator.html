@@ -478,56 +478,10 @@ Example: The mitochondria is the powerhouse of the cell. It generates most of th
     return matches.map(s => s.trim()).filter(Boolean);
   }
 
-  // ---- Voices ----
-  function loadVoices(){
-    voices = synth.getVoices();
-    voiceSelect.innerHTML = '';
-    if(voices.length === 0){
-      const opt = document.createElement('option');
-      opt.textContent = 'Default voice';
-      voiceSelect.appendChild(opt);
-      return;
-    }
-    voices.forEach((v, i) => {
-      const opt = document.createElement('option');
-      opt.value = i;
-      opt.textContent = `${v.name} (${v.lang})`;
-      if(v.default) opt.selected = true;
-      voiceSelect.appendChild(opt);
-    });
-    // Restore previously saved voice, if it's available in this browser.
-    if(savedSettings && savedSettings.voiceName){
-      const match = voices.findIndex(v => v.name === savedSettings.voiceName && v.lang === savedSettings.voiceLang);
-      if(match !== -1) voiceSelect.value = match;
-    }
-  }
-  loadVoices();
-  if(speechSynthesis.onvoiceschanged !== undefined){
-    speechSynthesis.onvoiceschanged = loadVoices;
-  }
-
-  // Approximate mapping from words-per-minute to the browser's relative
-  // speech rate. Most engines speak ~160 wpm at rate = 1.0, so we scale
-  // around that baseline (still an approximation — actual wpm varies by voice).
-  const WPM_BASELINE = 160;
-  function wpmToRate(wpm){ return wpm / WPM_BASELINE; }
-
-  speedSlider.addEventListener('input', () => {
-    speedVal.textContent = speedSlider.value + ' wpm';
-    saveSettings();
-  });
-  pauseSlider.addEventListener('input', () => {
-    pauseVal.textContent = parseFloat(pauseSlider.value).toFixed(1) + 's';
-    saveSettings();
-  });
-  voiceSelect.addEventListener('change', saveSettings);
-  repeatToggle.addEventListener('change', saveSettings);
-
   // ---- Settings persistence (localStorage) ----
   const SETTINGS_KEY = 'dictationDeskSettings';
 
   function saveSettings(){
-    const selectedOpt = voiceSelect.options[voiceSelect.selectedIndex];
     const settings = {
       wpm: speedSlider.value,
       pause: pauseSlider.value,
@@ -565,6 +519,57 @@ Example: The mitochondria is the powerhouse of the cell. It generates most of th
     }
   }
   applyNonVoiceSettings();
+
+  // ---- Voices ----
+  function loadVoices(){
+    try{
+      voices = synth.getVoices();
+    }catch(e){
+      voices = [];
+    }
+    voiceSelect.innerHTML = '';
+    if(voices.length === 0){
+      const opt = document.createElement('option');
+      opt.textContent = 'Default voice';
+      voiceSelect.appendChild(opt);
+      return;
+    }
+    voices.forEach((v, i) => {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = `${v.name} (${v.lang})`;
+      if(v.default) opt.selected = true;
+      voiceSelect.appendChild(opt);
+    });
+    // Restore previously saved voice, if it's available in this browser.
+    if(savedSettings && savedSettings.voiceName){
+      const match = voices.findIndex(v => v.name === savedSettings.voiceName && v.lang === savedSettings.voiceLang);
+      if(match !== -1) voiceSelect.value = match;
+    }
+  }
+  try{
+    loadVoices();
+    if(synth.onvoiceschanged !== undefined){
+      synth.onvoiceschanged = loadVoices;
+    }
+  }catch(e){ /* speech synthesis unavailable in this browser */ }
+
+  // Approximate mapping from words-per-minute to the browser's relative
+  // speech rate. Most engines speak ~160 wpm at rate = 1.0, so we scale
+  // around that baseline (still an approximation — actual wpm varies by voice).
+  const WPM_BASELINE = 160;
+  function wpmToRate(wpm){ return wpm / WPM_BASELINE; }
+
+  speedSlider.addEventListener('input', () => {
+    speedVal.textContent = speedSlider.value + ' wpm';
+    saveSettings();
+  });
+  pauseSlider.addEventListener('input', () => {
+    pauseVal.textContent = parseFloat(pauseSlider.value).toFixed(1) + 's';
+    saveSettings();
+  });
+  voiceSelect.addEventListener('change', saveSettings);
+  repeatToggle.addEventListener('change', saveSettings);
 
   // ---- Build practice view ----
   function renderSentences(){
