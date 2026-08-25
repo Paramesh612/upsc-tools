@@ -1,0 +1,3298 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>अनुच्छेद | Article Recall — Constitution of India</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Martel:wght@400;600;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --paper: #f6f1e2;
+        --paper-dim: #ece4ce;
+        --ink: #1c1a15;
+        --ink-soft: #4b4638;
+        --navy: #0b2545;
+        --navy-soft: #16345e;
+        --saffron: #e07a1f;
+        --green: #0f6b44;
+        --gold: #a9791f;
+        --wrong: #a13a2e;
+        --line: rgba(28, 26, 21, 0.16);
+        --shadow: 0 18px 40px -20px rgba(11, 37, 69, 0.45);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background:
+          radial-gradient(
+            1200px 800px at 10% -10%,
+            rgba(11, 37, 69, 0.06),
+            transparent 60%
+          ),
+          radial-gradient(
+            1000px 700px at 110% 10%,
+            rgba(224, 122, 31, 0.08),
+            transparent 55%
+          ),
+          var(--paper);
+        color: var(--ink);
+        font-family: "Source Serif 4", serif;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 40px 18px 60px;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: repeating-linear-gradient(
+          0deg,
+          rgba(28, 26, 21, 0.02) 0px,
+          rgba(28, 26, 21, 0.02) 1px,
+          transparent 1px,
+          transparent 3px
+        );
+        pointer-events: none;
+        opacity: 0.5;
+      }
+      .wrap {
+        width: 100%;
+        max-width: 720px;
+      }
+
+      .masthead {
+        text-align: center;
+        margin-bottom: 22px;
+      }
+      .masthead .chakra-emblem {
+        width: 44px;
+        height: 44px;
+        margin: 0 auto 10px;
+        opacity: 0.85;
+      }
+      .masthead .eyebrow {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 6px;
+      }
+      .masthead h1 {
+        font-family: "Martel", serif;
+        font-weight: 800;
+        font-size: clamp(28px, 5vw, 40px);
+        margin: 0;
+        color: var(--navy);
+        letter-spacing: 0.01em;
+      }
+      .masthead .sub {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        color: var(--ink-soft);
+        margin-top: 6px;
+        letter-spacing: 0.04em;
+      }
+      .rule {
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--gold),
+          transparent
+        );
+        margin: 18px auto 0;
+        max-width: 340px;
+      }
+
+      .card {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 3px;
+        box-shadow: var(--shadow);
+        position: relative;
+        padding: 34px clamp(20px, 5vw, 44px);
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 8px;
+        border: 1px solid rgba(11, 37, 69, 0.14);
+        pointer-events: none;
+      }
+
+      /* ---------- SETUP SCREEN ---------- */
+      .setup-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 22px;
+        margin: 22px 0;
+      }
+      .field {
+        flex: 1;
+        min-width: 200px;
+      }
+      .field label {
+        display: block;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--navy-soft);
+        margin-bottom: 8px;
+      }
+      .chip-row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .chip {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13px;
+        padding: 8px 14px;
+        border: 1px solid var(--line);
+        background: transparent;
+        color: var(--ink);
+        cursor: pointer;
+        border-radius: 2px;
+        transition: all 0.15s ease;
+      }
+      .chip:hover {
+        border-color: var(--navy);
+      }
+      .chip.active {
+        background: var(--navy);
+        color: var(--paper);
+        border-color: var(--navy);
+      }
+      .num-input-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .num-input-row button {
+        width: 34px;
+        height: 34px;
+        border: 1px solid var(--line);
+        background: transparent;
+        color: var(--navy);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 2px;
+      }
+      .num-input-row button:hover {
+        border-color: var(--navy);
+      }
+      .num-input-row input {
+        width: 64px;
+        text-align: center;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 16px;
+        padding: 8px 4px;
+        border: 1px solid var(--line);
+        background: var(--paper-dim);
+        color: var(--ink);
+        border-radius: 2px;
+      }
+      .field .hint {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10.5px;
+        color: var(--ink-soft);
+        margin-top: 8px;
+      }
+
+      .btn-primary {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        background: var(--navy);
+        color: var(--paper);
+        border: 1px solid var(--navy);
+        padding: 14px 28px;
+        cursor: pointer;
+        border-radius: 2px;
+        width: 100%;
+        margin-top: 8px;
+        transition:
+          transform 0.12s ease,
+          background 0.15s ease;
+      }
+      .btn-primary:hover {
+        background: var(--navy-soft);
+      }
+      .btn-primary:active {
+        transform: scale(0.99);
+      }
+      .btn-secondary {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        background: transparent;
+        color: var(--navy);
+        border: 1px solid var(--line);
+        padding: 11px 18px;
+        cursor: pointer;
+        border-radius: 2px;
+      }
+      .btn-secondary:hover {
+        border-color: var(--navy);
+      }
+
+      /* ---------- QUIZ SCREEN ---------- */
+      .quiz-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 22px;
+      }
+      .progress {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        color: var(--ink-soft);
+      }
+      .progress .n {
+        color: var(--navy);
+        font-weight: 600;
+      }
+      .score-live {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        color: var(--ink-soft);
+        margin-top: 4px;
+      }
+
+      .timer-wrap {
+        position: relative;
+        width: 64px;
+        height: 64px;
+        flex-shrink: 0;
+      }
+      .timer-wrap svg {
+        width: 64px;
+        height: 64px;
+        transform: rotate(-90deg);
+      }
+      .timer-wrap .ring-bg {
+        fill: none;
+        stroke: rgba(11, 37, 69, 0.12);
+        stroke-width: 4;
+      }
+      .timer-wrap .ring-fg {
+        fill: none;
+        stroke: var(--navy);
+        stroke-width: 4;
+        stroke-linecap: round;
+        transition:
+          stroke-dashoffset 1s linear,
+          stroke 0.3s ease;
+      }
+      .timer-wrap .chakra-spokes {
+        transform: rotate(90deg);
+        transform-origin: center;
+        opacity: 0.55;
+      }
+      .timer-wrap .t-num {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--navy);
+      }
+      .timer-wrap.urgent .ring-fg {
+        stroke: var(--wrong);
+      }
+      .timer-wrap.urgent .t-num {
+        color: var(--wrong);
+      }
+
+      .q-label {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 10px;
+      }
+      .q-main {
+        font-family: "Martel", serif;
+        font-weight: 800;
+        color: var(--navy);
+        line-height: 1.25;
+        margin-bottom: 26px;
+      }
+      .q-main.type-article {
+        font-size: clamp(30px, 6vw, 44px);
+      }
+      .q-main.type-provision {
+        font-size: clamp(19px, 3.4vw, 24px);
+        font-weight: 600;
+      }
+
+      .options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .opt {
+        text-align: left;
+        font-family: "Source Serif 4", serif;
+        font-size: 15.5px;
+        color: var(--ink);
+        background: var(--paper-dim);
+        border: 1px solid var(--line);
+        padding: 14px 16px;
+        border-radius: 2px;
+        cursor: pointer;
+        display: flex;
+        gap: 12px;
+        align-items: baseline;
+        transition:
+          border-color 0.12s ease,
+          background 0.12s ease;
+      }
+      .opt .k {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        color: var(--gold);
+        flex-shrink: 0;
+      }
+      .opt:hover:not(.locked) {
+        border-color: var(--navy);
+        background: #f1e9d4;
+      }
+      .opt.correct {
+        background: rgba(15, 107, 68, 0.12);
+        border-color: var(--green);
+      }
+      .opt.correct .k {
+        color: var(--green);
+      }
+      .opt.incorrect {
+        background: rgba(161, 58, 46, 0.12);
+        border-color: var(--wrong);
+      }
+      .opt.incorrect .k {
+        color: var(--wrong);
+      }
+      .opt.locked {
+        cursor: default;
+      }
+      .opt.dim {
+        opacity: 0.55;
+      }
+
+      .quiz-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 26px;
+      }
+      .reveal-note {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        color: var(--ink-soft);
+        min-height: 16px;
+      }
+      .reveal-note.miss {
+        color: var(--wrong);
+      }
+      .reveal-note.hit {
+        color: var(--green);
+      }
+
+      /* ---------- RESULTS SCREEN ---------- */
+      .stamp {
+        text-align: center;
+        padding: 10px 0 6px;
+      }
+      .stamp .score-big {
+        font-family: "Martel", serif;
+        font-weight: 800;
+        font-size: clamp(48px, 10vw, 72px);
+        color: var(--navy);
+        line-height: 1;
+      }
+      .stamp .score-of {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13px;
+        color: var(--ink-soft);
+        margin-top: 6px;
+        letter-spacing: 0.05em;
+      }
+      .stamp .verdict {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--saffron);
+        margin-top: 10px;
+      }
+
+      .tally {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin: 22px 0 8px;
+        flex-wrap: wrap;
+      }
+      .tally .item {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        padding: 8px 14px;
+        border: 1px solid var(--line);
+        border-radius: 2px;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .tally .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+      }
+      .tally .dot.hit {
+        background: var(--green);
+      }
+      .tally .dot.wrong {
+        background: var(--wrong);
+      }
+      .tally .dot.miss {
+        background: var(--saffron);
+      }
+      .tally .dot.skip {
+        background: var(--ink-soft);
+      }
+
+      .section-title {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--navy);
+        margin: 30px 0 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .section-title .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+      }
+
+      .review-item {
+        padding: 14px 0;
+        border-bottom: 1px dashed var(--line);
+      }
+      .review-item:last-child {
+        border-bottom: none;
+      }
+      .review-q {
+        font-family: "Martel", serif;
+        font-weight: 600;
+        font-size: 15px;
+        color: var(--ink);
+        margin-bottom: 6px;
+      }
+      .review-line {
+        font-family: "Source Serif 4", serif;
+        font-size: 13.5px;
+        color: var(--ink-soft);
+        margin-top: 2px;
+      }
+      .review-line .lbl {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10.5px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-right: 6px;
+      }
+      .review-line.your .lbl {
+        color: var(--wrong);
+      }
+      .review-line.correct .lbl {
+        color: var(--green);
+      }
+      .empty-note {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        color: var(--ink-soft);
+        padding: 10px 0;
+      }
+
+      .results-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 30px;
+      }
+      .results-actions .btn-primary {
+        margin-top: 0;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      @media (max-width: 480px) {
+        .card {
+          padding: 26px 18px;
+        }
+        .quiz-top {
+          align-items: center;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .timer-wrap .ring-fg {
+          transition: none;
+        }
+        .btn-primary {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="masthead">
+        <svg class="chakra-emblem" viewBox="0 0 100 100">
+          <circle
+            cx="50"
+            cy="50"
+            r="44"
+            fill="none"
+            stroke="#0B2545"
+            stroke-width="3"
+          />
+          <circle cx="50" cy="50" r="6" fill="#0B2545" />
+          <g stroke="#0B2545" stroke-width="1.6">
+            <line x1="50" y1="12" x2="50" y2="24" transform="rotate(0 50 50)" />
+            <line
+              x1="50"
+              y1="12"
+              x2="50"
+              y2="24"
+              transform="rotate(15 50 50)"
+            />
+            <line
+              x1="50"
+              y1="12"
+              x2="50"
+              y2="24"
+              transform="rotate(30 50 50)"
+            />
+            <line
+              x1="50"
+              y1="12"
+              x2="50"
+              y2="24"
+              transform="rotate(45 50 50)"
+            />
+            <line
+              x1="50"
+              y1="12"
+              x2="50"
+              y2="24"
+              transform="rotate(60 50 50)"
+            />
+            <line
+              x1="50"
+              y1="12"
+              x2="50"
+              y2="24"
+              transform="rotate(75 50 50)"
+            />
+            <line
+              x1="50"
+              y1="12"
+              x2="50"
+              y2="24"
+              transform="rotate(90 50 50)"
+            />
+            <line
+              x1="50"
+              y1="12"
+              x2="50"
+              y2="24"
+              transform="rotate(105 50 50)"
+            />
+            <line
+              x1="50"
+              y1="12"
+              x2="50"
+              y2="24"
+              transform="rotate(120 50 50)"
+            />
+            <line
+              x1="50"
+              y1="12"
+              x2="50"
+              y2="24"
+              transform="rotate(135 50 50)"
+            />
+            <line
+              x1="50"
+              y1="12"
+              x2="50"
+              y2="24"
+              transform="rotate(150 50 50)"
+            />
+            <line
+              x1="50"
+              y1="12"
+              x2="50"
+              y2="24"
+              transform="rotate(165 50 50)"
+            />
+            <line
+              x1="50"
+              y1="12"
+              x2="50"
+              y2="24"
+              transform="rotate(180 50 50)"
+            />
+            <line
+              x1="50"
+              y1="12"
+              x2="50"
+              y2="24"
+              transform="rotate(195 50 50)"
+            />
+            <line
+              x1="50"
+              y1="12"
+              x2="50"
+              y2="24"
+              transform="rotate(210 50 50)"
+            />
+            <line
+              x1="50"
+              y1="12"
+              x2="50"
+              y2="24"
+              transform="rotate(225 50 50)"
+            />
+            <line
+              x1="50"
+              y1="12"
+              x2="50"
+              y2="24"
+              transform="rotate(240 50 50)"
+            />
+            <line
+              x1="50"
+              y1="12"
+              x2="50"
+              y2="24"
+              transform="rotate(255 50 50)"
+            />
+            <line
+              x1="50"
+              y1="12"
+              x2="50"
+              y2="24"
+              transform="rotate(270 50 50)"
+            />
+            <line
+              x1="50"
+              y1="12"
+              x2="50"
+              y2="24"
+              transform="rotate(285 50 50)"
+            />
+            <line
+              x1="50"
+              y1="12"
+              x2="50"
+              y2="24"
+              transform="rotate(300 50 50)"
+            />
+            <line
+              x1="50"
+              y1="12"
+              x2="50"
+              y2="24"
+              transform="rotate(315 50 50)"
+            />
+            <line
+              x1="50"
+              y1="12"
+              x2="50"
+              y2="24"
+              transform="rotate(330 50 50)"
+            />
+            <line
+              x1="50"
+              y1="12"
+              x2="50"
+              y2="24"
+              transform="rotate(345 50 50)"
+            />
+          </g>
+        </svg>
+        <div class="eyebrow">Constitution of India — Recall Drill</div>
+        <h1>अनुच्छेद &nbsp;Article Recall</h1>
+        <div class="sub">
+          GAZETTE OF PRACTICE · SCHEDULE OF QUESTIONS · TIMED SITTING
+        </div>
+        <div class="rule"></div>
+      </div>
+
+      <!-- SETUP -->
+      <div id="setup" class="card">
+        <p
+          style="
+            font-family: &quot;Source Serif 4&quot;, serif;
+            font-size: 14.5px;
+            color: var(--ink-soft);
+            margin: 0 0 4px;
+            line-height: 1.6;
+          "
+        >
+          You'll be shown either an Article number or its provision — recall the
+          other from four options, against the clock.
+        </p>
+
+        <div class="setup-row">
+          <div class="field">
+            <label>Number of Questions</label>
+            <div class="chip-row" id="qCountChips"></div>
+          </div>
+          <div class="field">
+            <label>Seconds per Question</label>
+            <div class="num-input-row">
+              <button type="button" id="secMinus">−</button>
+              <input type="number" id="secInput" value="10" min="3" max="60" />
+              <button type="button" id="secPlus">+</button>
+            </div>
+            <div class="hint">Editable · 3–60 seconds</div>
+          </div>
+        </div>
+
+        <button class="btn-primary" id="startBtn">Begin Sitting →</button>
+      </div>
+
+      <!-- QUIZ -->
+      <div id="quiz" class="card hidden">
+        <div class="quiz-top">
+          <div>
+            <div class="progress">
+              Question <span class="n" id="qIndex">1</span> of
+              <span id="qTotal">10</span>
+            </div>
+            <div class="score-live">Score: <span id="liveScore">0</span></div>
+          </div>
+          <div class="timer-wrap" id="timerWrap">
+            <svg viewBox="0 0 64 64">
+              <circle class="ring-bg" cx="32" cy="32" r="27"></circle>
+              <circle
+                class="ring-fg"
+                id="ringFg"
+                cx="32"
+                cy="32"
+                r="27"
+              ></circle>
+            </svg>
+            <div class="t-num" id="tNum">10</div>
+          </div>
+        </div>
+
+        <div class="q-label" id="qLabel">
+          WHICH PROVISION DOES THIS ARTICLE STATE?
+        </div>
+        <div class="q-main" id="qMain">Article 21</div>
+
+        <div class="options" id="optionsWrap"></div>
+
+        <div class="quiz-bottom">
+          <div class="reveal-note" id="revealNote"></div>
+          <button class="btn-secondary" id="skipBtn">Skip →</button>
+        </div>
+      </div>
+
+      <!-- RESULTS -->
+      <div id="results" class="card hidden">
+        <div class="stamp">
+          <div class="eyebrow" style="text-align: center">
+            Sitting Concluded
+          </div>
+          <div class="score-big" id="finalScore">0/10</div>
+          <div class="score-of" id="finalPct">0% correct</div>
+          <div class="verdict" id="verdict">—</div>
+        </div>
+
+        <div class="tally" id="tally"></div>
+
+        <div id="wrongSection">
+          <div class="section-title">
+            <span class="dot wrong"></span>Answered Wrong
+          </div>
+          <div id="wrongList"></div>
+        </div>
+        <div id="missedSection">
+          <div class="section-title">
+            <span class="dot miss"></span>Missed (Time Ran Out)
+          </div>
+          <div id="missedList"></div>
+        </div>
+        <div id="skippedSection">
+          <div class="section-title"><span class="dot skip"></span>Skipped</div>
+          <div id="skippedList"></div>
+        </div>
+
+        <div class="results-actions">
+          <button class="btn-secondary" id="restartSameBtn">
+            Retry Same Settings
+          </button>
+          <button class="btn-primary" id="restartNewBtn">New Sitting</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        // ---------------- DATA: Article number -> Provision ----------------
+        const DATA_PART_1 = [
+          // =========================================================
+          // UNION, STATES & CITIZENSHIP
+          // =========================================================
+
+          [
+            "Article 1",
+            "India, that is Bharat, shall be a Union of States; territory of India",
+          ],
+
+          [
+            "Article 2",
+            "Admission or establishment of new States into the Union",
+          ],
+
+          [
+            "Article 3",
+            "Formation of new States and alteration of areas, boundaries or names of existing States",
+          ],
+
+          [
+            "Article 4",
+            "Laws under Articles 2 and 3 are not treated as constitutional amendments under Article 368",
+          ],
+
+          [
+            "Article 5–11",
+            "Citizenship at commencement of Constitution and Parliament's power to regulate citizenship",
+          ],
+
+          // =========================================================
+          // FUNDAMENTAL RIGHTS
+          // =========================================================
+
+          ["Article 12", "Definition of 'State' for Fundamental Rights"],
+
+          [
+            "Article 13",
+            "Laws inconsistent with Fundamental Rights; basis of judicial review",
+          ],
+
+          ["Article 14", "Equality before law and equal protection of laws"],
+
+          [
+            "Article 15",
+            "Prohibition of discrimination; special provisions for women, children, backward classes, SC/ST and EWS",
+          ],
+
+          [
+            "Article 16",
+            "Equality of opportunity in public employment; reservation provisions",
+          ],
+
+          ["Article 17", "Abolition of Untouchability"],
+
+          [
+            "Article 18",
+            "Abolition of titles; exception for military and academic distinctions",
+          ],
+
+          [
+            "Article 19",
+            "Six fundamental freedoms and reasonable restrictions",
+          ],
+
+          [
+            "Article 20",
+            "Protection against ex-post-facto criminal laws, double jeopardy and self-incrimination",
+          ],
+
+          [
+            "Article 21",
+            "Protection of life and personal liberty; basis for numerous implied rights",
+          ],
+
+          [
+            "Article 21A",
+            "Right to free and compulsory education for children aged 6–14",
+          ],
+
+          [
+            "Article 22",
+            "Protection against arrest and detention; safeguards and preventive detention",
+          ],
+
+          ["Article 23", "Prohibition of trafficking, begar and forced labour"],
+
+          [
+            "Article 24",
+            "Prohibition of employment of children below 14 in factories, mines and hazardous work",
+          ],
+
+          [
+            "Article 25",
+            "Freedom of conscience and religion; subject to public order, morality, health and other Fundamental Rights",
+          ],
+
+          [
+            "Article 26",
+            "Freedom of religious denominations to manage religious affairs",
+          ],
+
+          [
+            "Article 27",
+            "Freedom from taxation specifically appropriated for promotion of a particular religion",
+          ],
+
+          [
+            "Article 28",
+            "Religious instruction in educational institutions; important distinction between types of institutions",
+          ],
+
+          [
+            "Article 29",
+            "Protection of language, script and culture; available to any section of citizens, not only religious minorities",
+          ],
+
+          [
+            "Article 30",
+            "Minorities' right to establish and administer educational institutions",
+          ],
+
+          [
+            "Article 32",
+            "Right to Constitutional Remedies; Supreme Court's writ jurisdiction for Fundamental Rights",
+          ],
+
+          [
+            "Article 33",
+            "Parliament may modify Fundamental Rights for Armed Forces, forces maintaining public order and certain intelligence organisations",
+          ],
+
+          [
+            "Article 35",
+            "Parliament's exclusive power to legislate on certain matters relating to Fundamental Rights",
+          ],
+
+          // =========================================================
+          // DPSP + FUNDAMENTAL DUTIES
+          // =========================================================
+
+          [
+            "Article 37",
+            "DPSPs are not enforceable by courts but are fundamental in governance",
+          ],
+
+          [
+            "Article 39",
+            "Important socio-economic principles including adequate livelihood, distribution of resources, prevention of concentration of wealth and equal pay",
+          ],
+
+          ["Article 39A", "Equal justice and free legal aid"],
+
+          ["Article 40", "Organisation of Village Panchayats"],
+
+          ["Article 44", "Uniform Civil Code"],
+
+          [
+            "Article 45",
+            "Early childhood care and education for children below six years",
+          ],
+
+          [
+            "Article 46",
+            "Promotion of educational and economic interests of SCs, STs and weaker sections",
+          ],
+
+          ["Article 47", "Nutrition, standard of living and public health"],
+
+          [
+            "Article 48A",
+            "Protection and improvement of environment, forests and wildlife",
+          ],
+
+          ["Article 50", "Separation of judiciary from executive"],
+
+          ["Article 51", "Promotion of international peace and security"],
+
+          [
+            "Article 51A",
+            "Fundamental Duties of citizens; 11 duties including environmental protection, scientific temper and educational duty",
+          ],
+
+          // =========================================================
+          // RIGHT TO PROPERTY
+          // =========================================================
+
+          [
+            "Article 300A",
+            "Right to Property — constitutional/legal right, not a Fundamental Right; deprivation only by authority of law",
+          ],
+
+          // =========================================================
+          // PRESIDENT & VICE-PRESIDENT
+          // =========================================================
+
+          ["Article 52", "The President of India"],
+
+          [
+            "Article 54–55",
+            "Election of President; electoral college and system of proportional representation by single transferable vote",
+          ],
+
+          ["Article 56", "Term of President and conditions relating to tenure"],
+
+          ["Article 58", "Qualifications for election as President"],
+
+          ["Article 61", "Procedure for impeachment of President"],
+
+          ["Article 63", "Vice-President of India"],
+
+          [
+            "Article 64",
+            "Vice-President as ex-officio Chairman of Rajya Sabha",
+          ],
+
+          ["Article 66", "Election of Vice-President"],
+
+          ["Article 67", "Term and removal/resignation of Vice-President"],
+
+          [
+            "Article 71",
+            "Election disputes relating to President and Vice-President",
+          ],
+
+          [
+            "Article 72",
+            "President's pardoning power — pardon, reprieve, respite, remission and commutation",
+          ],
+
+          // =========================================================
+          // UNION COUNCIL OF MINISTERS
+          // =========================================================
+
+          [
+            "Article 74",
+            "Council of Ministers to aid and advise President; nature and limits of presidential discretion",
+          ],
+
+          [
+            "Article 75",
+            "Appointment of Prime Minister and Ministers; collective responsibility; tenure; six-month rule",
+          ],
+
+          [
+            "Article 76",
+            "Attorney-General for India — appointment, qualifications, duties and right to participate in Parliament",
+          ],
+
+          ["Article 78", "Duties of Prime Minister towards the President"],
+
+          // =========================================================
+          // PARLIAMENT
+          // =========================================================
+
+          [
+            "Article 79",
+            "Constitution of Parliament — President, Rajya Sabha and Lok Sabha",
+          ],
+
+          [
+            "Article 80",
+            "Composition of Rajya Sabha; elected and nominated members",
+          ],
+
+          ["Article 81", "Composition of Lok Sabha"],
+
+          [
+            "Article 83",
+            "Duration of Parliament — Rajya Sabha permanent; normal five-year term of Lok Sabha",
+          ],
+
+          ["Article 85", "Sessions of Parliament, prorogation and dissolution"],
+
+          ["Article 102", "Disqualifications for membership of Parliament"],
+
+          ["Article 105", "Parliamentary privileges of Houses and members"],
+
+          [
+            "Article 107–111",
+            "Ordinary Bills, joint sitting, Money Bills and President's assent",
+          ],
+
+          [
+            "Article 110",
+            "Definition of Money Bill; Speaker's certification and associated controversies",
+          ],
+
+          ["Article 112", "Annual Financial Statement — Union Budget"],
+
+          [
+            "Article 123",
+            "President's Ordinance-making power when Parliament is not in session",
+          ],
+
+          // =========================================================
+          // SUPREME COURT — VERY HIGH YIELD
+          // =========================================================
+
+          [
+            "Article 124",
+            "Establishment of Supreme Court; appointment, qualifications, tenure and removal of Supreme Court judges",
+          ],
+
+          [
+            "Article 124A–124C",
+            "National Judicial Appointments Commission provisions; struck down by Supreme Court — important for judicial appointments debate",
+          ],
+
+          ["Article 125", "Salaries and allowances of Supreme Court judges"],
+
+          ["Article 126", "Appointment of Acting Chief Justice of India"],
+
+          [
+            "Article 129",
+            "Supreme Court as Court of Record and contempt jurisdiction",
+          ],
+
+          [
+            "Article 131",
+            "Original jurisdiction of Supreme Court in Centre-State and inter-State disputes",
+          ],
+
+          [
+            "Article 136",
+            "Special Leave Petition — discretionary appellate jurisdiction of Supreme Court",
+          ],
+
+          ["Article 137", "Power of Supreme Court to review its judgments"],
+
+          [
+            "Article 141",
+            "Law declared by Supreme Court binding on all courts",
+          ],
+
+          ["Article 142", "Power of Supreme Court to do complete justice"],
+
+          [
+            "Article 143",
+            "President's power to seek advisory opinion from Supreme Court",
+          ],
+
+          // =========================================================
+          // HIGH COURTS / JUDGES
+          // =========================================================
+
+          ["Article 214", "High Courts for States"],
+
+          [
+            "Article 217",
+            "Appointment, qualifications, tenure and removal-related provisions of High Court judges",
+          ],
+
+          ["Article 222", "Transfer of High Court judges"],
+
+          [
+            "Article 226",
+            "High Courts' writ jurisdiction for Fundamental Rights and 'any other purpose'",
+          ],
+
+          [
+            "Article 227",
+            "High Court's power of superintendence over subordinate courts and tribunals",
+          ],
+
+          [
+            "Article 230–231",
+            "Extension of High Court jurisdiction to UTs and establishment of common High Courts",
+          ],
+
+          // =========================================================
+          // JUDGES — REMOVAL / INDEPENDENCE
+          // =========================================================
+
+          [
+            "Article 121",
+            "Parliament cannot discuss conduct of Supreme Court or High Court judges except upon a motion for their removal",
+          ],
+
+          [
+            "Article 124 + 217",
+            "Appointment, tenure and removal framework of Supreme Court and High Court judges; removal through parliamentary process",
+          ],
+
+          [
+            "Article 218",
+            "Certain Supreme Court provisions relating to judges, including removal-related provisions, apply to High Court judges",
+          ],
+
+          // =========================================================
+          // CAG
+          // =========================================================
+
+          [
+            "Article 148",
+            "Comptroller and Auditor-General of India — appointment, tenure, removal and independence",
+          ],
+
+          ["Article 149", "Duties and powers of CAG prescribed by Parliament"],
+
+          [
+            "Article 151",
+            "CAG reports submitted to President/Governor and laid before Parliament/State Legislature",
+          ],
+
+          // =========================================================
+          // GOVERNOR & STATE EXECUTIVE
+          // =========================================================
+
+          ["Article 153", "Governor for each State"],
+
+          [
+            "Article 155–156",
+            "Appointment of Governor by President and Governor's tenure during pleasure of President",
+          ],
+
+          [
+            "Article 157–158",
+            "Qualifications and conditions of Governor's office",
+          ],
+
+          ["Article 161", "Governor's pardoning power"],
+
+          [
+            "Article 163",
+            "Council of Ministers to aid and advise Governor; discretionary powers of Governor",
+          ],
+
+          [
+            "Article 164",
+            "Appointment of Chief Minister and Ministers; collective responsibility; six-month rule",
+          ],
+
+          ["Article 165", "Advocate-General for the State"],
+
+          [
+            "Article 200",
+            "Governor's options regarding State Bills — assent, withholding assent or reserving Bill for President",
+          ],
+
+          [
+            "Article 201",
+            "Bills reserved by Governor for consideration of President",
+          ],
+
+          ["Article 213", "Governor's Ordinance-making power"],
+
+          // =========================================================
+          // STATE LEGISLATURE
+          // =========================================================
+
+          ["Article 168", "Constitution of State Legislatures"],
+
+          [
+            "Article 169",
+            "Creation or abolition of State Legislative Councils",
+          ],
+
+          [
+            "Article 170–171",
+            "Composition of Legislative Assembly and Legislative Council",
+          ],
+
+          ["Article 172", "Duration of State Legislature"],
+
+          [
+            "Article 191–192",
+            "Disqualifications of State legislators and decision on disqualification",
+          ],
+
+          ["Article 194", "Privileges of State Legislature and its members"],
+
+          // =========================================================
+          // DISTRICT / SUBORDINATE JUDICIARY
+          // =========================================================
+
+          ["Article 233", "Appointment of District Judges"],
+
+          [
+            "Article 234",
+            "Recruitment of persons other than District Judges to State judicial service",
+          ],
+
+          ["Article 235", "Control of subordinate courts vested in High Court"],
+        ];
+
+        const DATA_PART_2 = [
+          // =========================================================
+          // PANCHAYATS
+          // =========================================================
+
+          ["Article 243", "Definitions relating to Panchayats"],
+
+          ["Article 243A", "Gram Sabha"],
+
+          [
+            "Article 243B",
+            "Constitution of Panchayats at village, intermediate and district levels",
+          ],
+
+          ["Article 243C", "Composition of Panchayats"],
+
+          [
+            "Article 243D",
+            "Reservation of seats in Panchayats for SCs, STs and women",
+          ],
+
+          [
+            "Article 243E",
+            "Duration of Panchayats — five years; elections before expiry/dissolution",
+          ],
+
+          [
+            "Article 243G",
+            "Powers, authority and responsibilities of Panchayats; economic development and social justice",
+          ],
+
+          [
+            "Article 243H",
+            "Power of Panchayats to levy taxes and constitution of Panchayat funds",
+          ],
+
+          ["Article 243I", "State Finance Commission for Panchayats"],
+
+          [
+            "Article 243K",
+            "State Election Commission — superintendence, direction and control of Panchayat elections",
+          ],
+
+          [
+            "Article 243M",
+            "Exceptions to application of Panchayat provisions to certain areas and States",
+          ],
+
+          // =========================================================
+          // MUNICIPALITIES
+          // =========================================================
+
+          [
+            "Article 243Q",
+            "Constitution of Municipalities — Nagar Panchayat, Municipal Council and Municipal Corporation",
+          ],
+
+          [
+            "Article 243T",
+            "Reservation of seats in Municipalities for SCs, STs and women",
+          ],
+
+          [
+            "Article 243U",
+            "Duration of Municipalities — five years; elections after dissolution",
+          ],
+
+          ["Article 243W", "Powers and responsibilities of Municipalities"],
+
+          [
+            "Article 243X",
+            "Power of Municipalities to levy taxes and constitute funds",
+          ],
+
+          ["Article 243Y", "State Finance Commission and Municipal finances"],
+
+          [
+            "Article 243ZA",
+            "Elections to Municipalities under State Election Commission",
+          ],
+
+          [
+            "Article 243ZD",
+            "District Planning Committee — consolidation of Panchayat and Municipal plans",
+          ],
+
+          ["Article 243ZE", "Metropolitan Planning Committee"],
+
+          // =========================================================
+          // UNION TERRITORIES / DELHI
+          // =========================================================
+
+          [
+            "Article 239",
+            "Administration of Union Territories by President through Administrator",
+          ],
+
+          [
+            "Article 239A",
+            "Creation of local Legislatures or Council of Ministers for certain Union Territories",
+          ],
+
+          [
+            "Article 239AA",
+            "Special provisions for Delhi — Legislative Assembly, Council of Ministers and Lieutenant Governor",
+          ],
+
+          [
+            "Article 239AB",
+            "Provisions in case of failure of constitutional machinery in Delhi",
+          ],
+
+          [
+            "Article 240",
+            "President's power to make regulations for certain Union Territories",
+          ],
+
+          ["Article 241", "High Courts for Union Territories"],
+
+          // =========================================================
+          // SCHEDULED & TRIBAL AREAS
+          // =========================================================
+
+          [
+            "Article 244",
+            "Administration of Scheduled Areas and Tribal Areas; Fifth and Sixth Schedules",
+          ],
+
+          [
+            "Article 244A",
+            "Formation of an autonomous State comprising certain tribal areas in Assam",
+          ],
+
+          [
+            "Article 275",
+            "Grants-in-aid to States, including special grants for Scheduled Tribes and Scheduled Areas",
+          ],
+
+          // =========================================================
+          // CENTRE–STATE LEGISLATIVE RELATIONS / FEDERALISM
+          // =========================================================
+
+          [
+            "Article 245",
+            "Extent of laws made by Parliament and State Legislatures",
+          ],
+
+          [
+            "Article 246",
+            "Distribution of legislative subjects through Union, State and Concurrent Lists",
+          ],
+
+          [
+            "Article 246A",
+            "Special provision for GST — concurrent power of Parliament and States; Parliament has exclusive power over inter-State GST",
+          ],
+
+          ["Article 248", "Residuary legislative powers vested in Parliament"],
+
+          [
+            "Article 249",
+            "Parliament may legislate on State List in national interest if Rajya Sabha passes required resolution",
+          ],
+
+          [
+            "Article 250",
+            "Parliament may legislate on State List during a Proclamation of Emergency",
+          ],
+
+          [
+            "Article 252",
+            "Parliament may legislate for two or more States by consent; other States may adopt such law",
+          ],
+
+          [
+            "Article 253",
+            "Parliament's power to legislate for implementing international treaties and agreements",
+          ],
+
+          [
+            "Article 254",
+            "Inconsistency between Parliamentary and State laws on Concurrent List; repugnancy",
+          ],
+
+          [
+            "Article 256",
+            "Obligation of States and Union's power to give directions to ensure compliance with Parliamentary laws",
+          ],
+
+          ["Article 257", "Union's control over States in certain cases"],
+
+          [
+            "Article 262",
+            "Adjudication of inter-State river water disputes; Parliament may exclude court jurisdiction",
+          ],
+
+          [
+            "Article 263",
+            "Inter-State Council — coordination and discussion of disputes between States",
+          ],
+
+          // =========================================================
+          // ADMINISTRATIVE / FEDERAL RELATIONS
+          // =========================================================
+
+          ["Article 258", "Union may confer functions on States"],
+
+          ["Article 258A", "State may entrust functions to Union"],
+
+          [
+            "Article 355",
+            "Duty of Union to protect States against external aggression and internal disturbance and ensure constitutional government",
+          ],
+
+          [
+            "Article 365",
+            "Failure of State to comply with Union directions may enable President to hold that constitutional machinery has failed",
+          ],
+
+          // =========================================================
+          // FINANCE / TAXATION
+          // =========================================================
+
+          [
+            "Article 265",
+            "No tax shall be levied or collected except by authority of law",
+          ],
+
+          [
+            "Article 266",
+            "Consolidated Funds and Public Accounts of India and States",
+          ],
+
+          ["Article 267", "Contingency Fund of India and States"],
+
+          [
+            "Article 268–269A",
+            "Distribution/collection of certain taxes between Union and States, including inter-State GST",
+          ],
+
+          [
+            "Article 270",
+            "Taxes levied and collected by Union and distributed between Union and States",
+          ],
+
+          [
+            "Article 271",
+            "Surcharge on certain duties and taxes for purposes of Union",
+          ],
+
+          [
+            "Article 275",
+            "Grants-in-aid from Union to certain States; including Scheduled Tribe/Scheduled Area grants",
+          ],
+
+          [
+            "Article 279A",
+            "GST Council — composition, recommendations and federal fiscal coordination",
+          ],
+
+          [
+            "Article 280",
+            "Finance Commission — constitution, composition and recommendations on distribution of financial resources",
+          ],
+
+          [
+            "Article 281",
+            "Recommendations of Finance Commission to be laid before Parliament",
+          ],
+
+          [
+            "Article 282",
+            "Union or State may make grants for any public purpose even outside its normal legislative field",
+          ],
+
+          [
+            "Article 293",
+            "Borrowing by States; Union's consent required in specified circumstances",
+          ],
+
+          // =========================================================
+          // PROPERTY / TRADE / COMMERCE
+          // =========================================================
+
+          [
+            "Article 300A",
+            "Right to Property as a constitutional right; deprivation only by authority of law",
+          ],
+
+          [
+            "Article 301",
+            "Freedom of trade, commerce and intercourse throughout India",
+          ],
+
+          [
+            "Article 302",
+            "Parliament's power to impose restrictions on trade, commerce and intercourse",
+          ],
+
+          [
+            "Article 304",
+            "State restrictions on trade, commerce and intercourse; important for federal economic relations",
+          ],
+
+          // =========================================================
+          // SERVICES / PUBLIC SERVICE COMMISSIONS
+          // =========================================================
+
+          [
+            "Article 309",
+            "Recruitment and conditions of service of persons serving Union or State",
+          ],
+
+          [
+            "Article 310",
+            "Doctrine of pleasure — tenure of persons serving Union or State",
+          ],
+
+          [
+            "Article 311",
+            "Safeguards against dismissal, removal or reduction in rank of civil servants",
+          ],
+
+          [
+            "Article 312",
+            "All-India Services; Rajya Sabha resolution enables Parliament to create them",
+          ],
+
+          [
+            "Article 315",
+            "Union Public Service Commission and State Public Service Commissions",
+          ],
+
+          [
+            "Article 316",
+            "Appointment and term of office of members of UPSC/SPSC",
+          ],
+
+          ["Article 317", "Removal and suspension of UPSC/SPSC members"],
+
+          ["Article 320", "Functions of Public Service Commissions"],
+
+          // =========================================================
+          // ELECTION COMMISSION / ELECTIONS
+          // =========================================================
+
+          [
+            "Article 324",
+            "Superintendence, direction and control of elections vested in Election Commission of India",
+          ],
+
+          [
+            "Article 325",
+            "No exclusion from electoral roll on grounds of religion, race, caste or sex",
+          ],
+
+          [
+            "Article 326",
+            "Elections to Lok Sabha and State Assemblies based on adult suffrage",
+          ],
+
+          [
+            "Article 327",
+            "Parliament's power to make laws regarding elections",
+          ],
+
+          [
+            "Article 328",
+            "State Legislature's power to make laws regarding elections to State Legislature",
+          ],
+
+          [
+            "Article 329",
+            "Bar on court interference in electoral matters except through constitutionally prescribed election petitions",
+          ],
+
+          // =========================================================
+          // RESERVATION / POLITICAL REPRESENTATION
+          // =========================================================
+
+          ["Article 330", "Reservation of seats for SCs and STs in Lok Sabha"],
+
+          [
+            "Article 332",
+            "Reservation of seats for SCs and STs in State Legislative Assemblies",
+          ],
+
+          [
+            "Article 335",
+            "Claims of SCs and STs to services and posts; consistency with administrative efficiency",
+          ],
+
+          [
+            "Article 338",
+            "National Commission for Scheduled Castes — constitutional status, composition and functions",
+          ],
+
+          ["Article 338A", "National Commission for Scheduled Tribes"],
+
+          [
+            "Article 338B",
+            "National Commission for Backward Classes — constitutional status",
+          ],
+
+          [
+            "Article 340",
+            "Commission to investigate conditions of backward classes",
+          ],
+
+          [
+            "Article 341",
+            "President specifies Scheduled Castes; Parliament may include/exclude from list",
+          ],
+
+          [
+            "Article 342",
+            "President specifies Scheduled Tribes; Parliament may include/exclude from list",
+          ],
+
+          [
+            "Article 342A",
+            "Socially and Educationally Backward Classes — constitutional framework for identification/listing",
+          ],
+
+          // =========================================================
+          // CONSTITUTIONAL COMMISSIONS / BODIES
+          // =========================================================
+
+          [
+            "Article 148",
+            "Comptroller and Auditor-General — appointment, removal and independence",
+          ],
+
+          [
+            "Article 280",
+            "Finance Commission — appointment, composition and recommendations",
+          ],
+
+          [
+            "Article 315–317",
+            "UPSC/SPSC — establishment, appointment, tenure and removal of members",
+          ],
+
+          [
+            "Article 324",
+            "Election Commission — appointment framework, tenure/removal and independence of election machinery",
+          ],
+
+          [
+            "Article 338–338B",
+            "National Commissions for SCs, STs and Backward Classes",
+          ],
+
+          // =========================================================
+          // OFFICIAL LANGUAGE
+          // =========================================================
+
+          [
+            "Article 343",
+            "Official language of the Union — Hindi in Devanagari script; English continues under law",
+          ],
+
+          [
+            "Article 344",
+            "Commission and Committee of Parliament on official language",
+          ],
+
+          ["Article 345", "Official language or languages of a State"],
+
+          [
+            "Article 348",
+            "Language of Supreme Court, High Courts and authoritative legal texts",
+          ],
+
+          [
+            "Article 350A",
+            "Instruction in mother tongue at primary stage for children belonging to linguistic minority groups",
+          ],
+
+          ["Article 350B", "Special Officer for linguistic minorities"],
+
+          ["Article 351", "Directive for development of Hindi language"],
+
+          // =========================================================
+          // EMERGENCY PROVISIONS — VERY HIGH YIELD
+          // =========================================================
+
+          [
+            "Article 352",
+            "National Emergency — grounds of war, external aggression or armed rebellion; parliamentary approval and continuation",
+          ],
+
+          [
+            "Article 353",
+            "Effect of Proclamation of Emergency on executive and legislative powers of Union",
+          ],
+
+          [
+            "Article 354",
+            "Application of provisions relating to distribution of revenues during Emergency",
+          ],
+
+          [
+            "Article 355",
+            "Union's duty to protect States and ensure constitutional government",
+          ],
+
+          [
+            "Article 356",
+            "President's Rule — failure of constitutional machinery in a State",
+          ],
+
+          [
+            "Article 357",
+            "Exercise of legislative powers during President's Rule",
+          ],
+
+          [
+            "Article 358",
+            "Suspension of Article 19 during Emergency declared on grounds of war or external aggression",
+          ],
+
+          [
+            "Article 359",
+            "President may suspend the right to move courts for enforcement of specified Fundamental Rights during Emergency; Articles 20 and 21 cannot be suspended",
+          ],
+
+          ["Article 360", "Financial Emergency"],
+
+          // =========================================================
+          // PRESIDENT / GOVERNOR IMMUNITIES
+          // =========================================================
+
+          [
+            "Article 361",
+            "Constitutional immunity of President and Governors from court proceedings while in office, subject to specified exceptions",
+          ],
+
+          // =========================================================
+          // CONSTITUTIONAL AMENDMENT / BASIC STRUCTURE
+          // =========================================================
+
+          [
+            "Article 368",
+            "Power and procedure of Parliament to amend the Constitution; special majority and ratification by States for specified provisions",
+          ],
+
+          [
+            "Article 13 + Article 368",
+            "Relationship between Fundamental Rights and constitutional amendments; important in basic-structure jurisprudence",
+          ],
+
+          // =========================================================
+          // SPECIAL PROVISIONS FOR STATES
+          // =========================================================
+
+          ["Article 371", "Special provisions for Maharashtra and Gujarat"],
+
+          [
+            "Article 371A",
+            "Special protection for Nagaland — customary law, religious/social practices, land and resources, subject to constitutional conditions",
+          ],
+
+          [
+            "Article 371B",
+            "Special provision for Assam — committee of Legislative Assembly for tribal areas",
+          ],
+
+          [
+            "Article 371C",
+            "Special provision for Manipur — Hill Areas Committee",
+          ],
+
+          [
+            "Article 371D",
+            "Special provisions for Andhra Pradesh and Telangana, including equitable opportunities in education and public employment",
+          ],
+
+          ["Article 371F", "Special provisions for Sikkim"],
+
+          [
+            "Article 371G",
+            "Special protection for Mizoram — customary law, religious/social practices and land",
+          ],
+
+          [
+            "Article 371H",
+            "Special provision for Arunachal Pradesh — special responsibility of Governor for law and order",
+          ],
+
+          [
+            "Article 371J",
+            "Special provisions for Karnataka — development board and reservation-related measures",
+          ],
+
+          // =========================================================
+          // JAMMU & KASHMIR
+          // =========================================================
+
+          [
+            "Article 370",
+            "Special provisions relating to Jammu and Kashmir; major constitutional changes in 2019 and subsequent Supreme Court scrutiny",
+          ],
+
+          // =========================================================
+          // MISCELLANEOUS HIGH-YIELD
+          // =========================================================
+
+          [
+            "Article 361A",
+            "Protection for publication of substantially true reports of Parliamentary and State Legislature proceedings",
+          ],
+
+          [
+            "Article 363",
+            "Bar on court jurisdiction in disputes arising from certain pre-Constitution treaties, agreements, covenants, etc.",
+          ],
+
+          [
+            "Article 366",
+            "Constitutional definitions used across the Constitution",
+          ],
+
+          ["Article 367", "Interpretation of the Constitution"],
+
+          [
+            "Article 368",
+            "Constitutional amendment procedure and basic-structure controversy",
+          ],
+
+          // =========================================================
+          // IMPORTANT SCHEDULES
+          // =========================================================
+
+          [
+            "First Schedule",
+            "Names and territories of States and Union Territories",
+          ],
+
+          [
+            "Second Schedule",
+            "Salaries, allowances and privileges of President, Governors, Speakers, judges, CAG and other constitutional authorities",
+          ],
+
+          ["Third Schedule", "Forms of oaths and affirmations"],
+
+          [
+            "Fourth Schedule",
+            "Allocation of seats in Rajya Sabha to States and Union Territories",
+          ],
+
+          [
+            "Fifth Schedule",
+            "Administration and control of Scheduled Areas and Scheduled Tribes",
+          ],
+
+          [
+            "Sixth Schedule",
+            "Administration of Tribal Areas in Assam, Meghalaya, Tripura and Mizoram",
+          ],
+
+          [
+            "Seventh Schedule",
+            "Union List, State List and Concurrent List — distribution of legislative subjects",
+          ],
+
+          ["Eighth Schedule", "22 constitutionally recognised languages"],
+
+          [
+            "Ninth Schedule",
+            "Laws protected from certain Fundamental Rights challenges; subject to basic-structure review",
+          ],
+
+          [
+            "Tenth Schedule",
+            "Anti-defection law — disqualification on ground of defection",
+          ],
+
+          ["Eleventh Schedule", "29 subjects relating to Panchayats"],
+
+          ["Twelfth Schedule", "18 subjects relating to Municipalities"],
+        ];
+        const DATA_PART_3 = [
+          // =========================================================
+          // PARLIAMENTARY PROCEDURE / SPEAKER / PRIVILEGES
+          // =========================================================
+
+          [
+            "Article 93",
+            "Speaker and Deputy Speaker of Lok Sabha; election and constitutional position",
+          ],
+
+          [
+            "Article 94",
+            "Removal/resignation and vacation of office of Speaker and Deputy Speaker",
+          ],
+
+          ["Article 100", "Voting, vacancies and quorum in Parliament"],
+
+          [
+            "Article 105",
+            "Parliamentary privileges, freedom of speech in Parliament and immunities of MPs",
+          ],
+
+          ["Article 118", "Rules of procedure of Parliament"],
+
+          [
+            "Article 122",
+            "Courts cannot inquire into validity of Parliamentary proceedings on grounds of procedural irregularity",
+          ],
+
+          [
+            "Article 110",
+            "Money Bill — definition and Speaker's certification; frequently controversial in relation to judicial review",
+          ],
+
+          [
+            "Article 108",
+            "Joint sitting of Parliament for resolving deadlock between Lok Sabha and Rajya Sabha",
+          ],
+
+          // =========================================================
+          // PARLIAMENTARY COMMITTEES / ACCOUNTABILITY
+          // =========================================================
+
+          [
+            "Article 151",
+            "CAG reports laid before Parliament/State Legislature; basis for PAC scrutiny",
+          ],
+
+          [
+            "Article 75",
+            "Council of Ministers collectively responsible to Lok Sabha",
+          ],
+
+          [
+            "Article 75(3)",
+            "Collective responsibility of Union Council of Ministers to Lok Sabha",
+          ],
+
+          // =========================================================
+          // ANTI-DEFECTION
+          // =========================================================
+
+          [
+            "Article 102(2)",
+            "Disqualification of MP on grounds of defection under Tenth Schedule",
+          ],
+
+          [
+            "Article 191(2)",
+            "Disqualification of State legislator on grounds of defection",
+          ],
+
+          [
+            "Tenth Schedule",
+            "Anti-Defection Law — disqualification for voluntarily giving up party membership or voting/abstaining contrary to party direction, subject to exceptions",
+          ],
+
+          [
+            "Tenth Schedule — Paragraph 4",
+            "Merger exception — defection provisions do not apply when at least two-thirds of legislature party agree to merger",
+          ],
+
+          [
+            "Tenth Schedule — Speaker/Chairman",
+            "Speaker/Chairman decides defection cases; decisions subject to judicial review",
+          ],
+
+          // =========================================================
+          // JUDICIAL REVIEW / BASIC STRUCTURE
+          // =========================================================
+
+          [
+            "Article 13",
+            "Judicial review of laws violating Fundamental Rights",
+          ],
+
+          [
+            "Article 32",
+            "Supreme Court's writ jurisdiction for enforcement of Fundamental Rights",
+          ],
+
+          [
+            "Article 226",
+            "High Court writ jurisdiction — wider than Article 32 because it extends to 'any other purpose'",
+          ],
+
+          [
+            "Article 136",
+            "Special Leave Petition — exceptional discretionary jurisdiction of Supreme Court",
+          ],
+
+          ["Article 137", "Supreme Court's power to review its own judgments"],
+
+          [
+            "Article 141",
+            "Supreme Court's declaration of law binding on all courts",
+          ],
+
+          ["Article 142", "Complete justice jurisdiction of Supreme Court"],
+
+          [
+            "Article 368",
+            "Constitutional amendment power subject to Basic Structure doctrine",
+          ],
+
+          // =========================================================
+          // JUDICIAL APPOINTMENTS / INDEPENDENCE
+          // =========================================================
+
+          [
+            "Article 124",
+            "Appointment, qualifications, tenure and removal of Supreme Court judges; central provision for judicial independence",
+          ],
+
+          [
+            "Article 217",
+            "Appointment, qualifications, tenure and removal framework for High Court judges",
+          ],
+
+          ["Article 222", "Transfer of High Court judges"],
+
+          [
+            "Article 124A–124C",
+            "National Judicial Appointments Commission provisions; struck down by Supreme Court in 2015",
+          ],
+
+          [
+            "Article 50",
+            "Separation of judiciary from executive — Directive Principle relevant to judicial independence",
+          ],
+
+          [
+            "Article 121",
+            "Restrictions on parliamentary discussion of conduct of judges except during removal proceedings",
+          ],
+
+          // =========================================================
+          // REMOVAL OF CONSTITUTIONAL FUNCTIONARIES
+          // =========================================================
+
+          ["Article 61", "Impeachment/removal procedure for President"],
+
+          [
+            "Article 67(b)",
+            "Removal of Vice-President by resolution of Rajya Sabha agreed to by Lok Sabha",
+          ],
+
+          [
+            "Article 124(4)",
+            "Removal of Supreme Court judge by President after Parliamentary address supported by special majority on ground of proved misbehaviour or incapacity",
+          ],
+
+          [
+            "Article 217 + 218",
+            "Removal framework for High Court judges; same parliamentary process applicable through Article 218",
+          ],
+
+          [
+            "Article 148(1)",
+            "CAG removed from office in like manner and on like grounds as a Supreme Court judge",
+          ],
+
+          [
+            "Article 317",
+            "Removal/suspension of UPSC or State PSC members; includes special procedure involving Supreme Court in specified cases",
+          ],
+
+          [
+            "Article 324(5)",
+            "Removal of Election Commissioners and Regional Commissioners; CEC has protection comparable to Supreme Court judge removal",
+          ],
+
+          // =========================================================
+          // GOVERNOR CONTROVERSIES
+          // =========================================================
+
+          ["Article 155", "Governor appointed by President"],
+
+          [
+            "Article 156",
+            "Governor holds office during pleasure of President; five-year term is not an absolute tenure guarantee",
+          ],
+
+          [
+            "Article 163",
+            "Governor normally acts on aid and advice but has constitutionally recognised discretionary areas",
+          ],
+
+          [
+            "Article 200",
+            "Governor's options on State Bills — assent, withholding assent, returning non-Money Bill or reserving for President",
+          ],
+
+          [
+            "Article 201",
+            "President's consideration of Bills reserved by Governor",
+          ],
+
+          [
+            "Article 356",
+            "Governor's report can form basis for President's Rule, though Article 356 is subject to judicial review",
+          ],
+
+          // =========================================================
+          // PRESIDENTIAL DISCRETION / PARDON
+          // =========================================================
+
+          [
+            "Article 72",
+            "President's pardoning power, including cases involving death sentences and court martial",
+          ],
+
+          [
+            "Article 161",
+            "Governor's pardoning power in matters within State executive power; important distinction from Article 72",
+          ],
+
+          [
+            "Article 74",
+            "President ordinarily acts on aid and advice of Council of Ministers; advice can be reconsidered once",
+          ],
+
+          [
+            "Article 163",
+            "Governor's discretionary powers and constitutional limits on discretion",
+          ],
+
+          // =========================================================
+          // ORDINANCE-MAKING
+          // =========================================================
+
+          [
+            "Article 123",
+            "President's power to promulgate Ordinances when Parliament is not in session",
+          ],
+
+          [
+            "Article 213",
+            "Governor's power to promulgate Ordinances when State Legislature is not in session",
+          ],
+
+          [
+            "Article 123 + 213",
+            "Ordinances have force of law but are temporary; repeated re-promulgation has been constitutionally criticised",
+          ],
+
+          // =========================================================
+          // FEDERALISM / REPUGNANCY
+          // =========================================================
+
+          [
+            "Article 246",
+            "Distribution of legislative powers through Union, State and Concurrent Lists",
+          ],
+
+          [
+            "Article 246A",
+            "GST legislative power — special constitutional arrangement overriding the normal legislative distribution",
+          ],
+
+          [
+            "Article 249",
+            "Rajya Sabha can authorise Parliament to legislate on State List in national interest",
+          ],
+
+          [
+            "Article 250",
+            "Parliament can legislate on State List while National Emergency is in operation",
+          ],
+
+          [
+            "Article 252",
+            "Parliament can legislate for consenting States on State List subjects",
+          ],
+
+          [
+            "Article 253",
+            "Parliament's power to implement international treaties/agreements",
+          ],
+
+          [
+            "Article 254",
+            "Repugnancy between Central and State laws on Concurrent List",
+          ],
+
+          [
+            "Article 262",
+            "Inter-State river water disputes and exclusion of court jurisdiction by Parliamentary law",
+          ],
+
+          [
+            "Article 263",
+            "Inter-State Council for coordination between Union and States",
+          ],
+
+          // =========================================================
+          // EMERGENCY — EXAM TRAPS
+          // =========================================================
+
+          [
+            "Article 352",
+            "National Emergency — war, external aggression or armed rebellion; parliamentary approval required within prescribed period",
+          ],
+
+          [
+            "Article 352",
+            "National Emergency can operate in whole or part of India; 44th Amendment introduced important safeguards",
+          ],
+
+          [
+            "Article 358",
+            "Article 19 is automatically affected only when Emergency is proclaimed on grounds of war or external aggression",
+          ],
+
+          [
+            "Article 359",
+            "President may suspend right to move courts for specified Fundamental Rights during Emergency; Articles 20 and 21 cannot be suspended",
+          ],
+
+          [
+            "Article 356",
+            "President's Rule — failure of constitutional machinery in a State; subject to parliamentary approval and judicial review",
+          ],
+
+          [
+            "Article 365",
+            "Failure of a State to comply with Union directions may be relevant to a finding of constitutional failure",
+          ],
+
+          [
+            "Article 360",
+            "Financial Emergency — never proclaimed in India; allows Union directions concerning financial propriety",
+          ],
+
+          // =========================================================
+          // LOCAL GOVERNMENT — IMPORTANT DISTINCTIONS
+          // =========================================================
+
+          [
+            "Article 243D",
+            "Reservation in Panchayats — SC/ST and not less than one-third seats for women under the constitutional framework",
+          ],
+
+          ["Article 243T", "Reservation in Municipalities — SC/ST and women"],
+
+          [
+            "Article 243G",
+            "Panchayats' powers and responsibilities; actual devolution depends substantially on State legislation",
+          ],
+
+          [
+            "Article 243W",
+            "Municipalities' powers and responsibilities; actual devolution depends substantially on State legislation",
+          ],
+
+          [
+            "Article 243K",
+            "State Election Commission controls Panchayat elections",
+          ],
+
+          [
+            "Article 243ZA",
+            "State Election Commission controls Municipal elections",
+          ],
+
+          [
+            "Article 243I + 243Y",
+            "State Finance Commission reviews finances of Panchayats and Municipalities",
+          ],
+
+          // =========================================================
+          // ELECTION COMMISSION / ELECTORAL REFORMS
+          // =========================================================
+
+          [
+            "Article 324",
+            "Election Commission's constitutional authority over elections to Parliament, State Legislatures, President and Vice-President",
+          ],
+
+          [
+            "Article 325",
+            "Single general electoral roll; no exclusion on grounds of religion, race, caste or sex",
+          ],
+
+          [
+            "Article 326",
+            "Adult suffrage — elections based on universal adult franchise",
+          ],
+
+          [
+            "Article 329",
+            "Limited judicial intervention in electoral matters; election disputes generally through election petitions",
+          ],
+
+          // =========================================================
+          // ELECTION COMMISSION — APPOINTMENT / REMOVAL
+          // =========================================================
+
+          [
+            "Article 324(2)",
+            "President appoints CEC and Election Commissioners subject to law made by Parliament",
+          ],
+
+          [
+            "Article 324(5)",
+            "CEC removable in like manner and on like grounds as Supreme Court judge; other Election Commissioners/Regional Commissioners removable by President on recommendation of CEC",
+          ],
+
+          [
+            "Article 324",
+            "Independence of Election Commission; appointment process has been a major constitutional and current-affairs issue",
+          ],
+
+          // =========================================================
+          // FINANCE COMMISSION / FISCAL FEDERALISM
+          // =========================================================
+
+          [
+            "Article 280",
+            "Finance Commission — constituted by President; recommends distribution of tax revenues and grants-in-aid",
+          ],
+
+          [
+            "Article 281",
+            "Finance Commission recommendations laid before Parliament with explanatory memorandum",
+          ],
+
+          [
+            "Article 279A",
+            "GST Council — Union Finance Minister + Union Minister of State for Revenue/Finance + State Finance/Taxation Ministers",
+          ],
+
+          [
+            "Article 270",
+            "Distribution of certain Union taxes between Union and States",
+          ],
+
+          // =========================================================
+          // CAG
+          // =========================================================
+
+          [
+            "Article 148",
+            "CAG — appointment, oath, tenure, removal and independence",
+          ],
+
+          ["Article 149", "CAG's duties and powers prescribed by Parliament"],
+
+          [
+            "Article 150–151",
+            "Form of accounts and submission of CAG reports to legislature",
+          ],
+
+          // =========================================================
+          // UPSC / SPSC
+          // =========================================================
+
+          [
+            "Article 315",
+            "Constitution of UPSC and State Public Service Commissions",
+          ],
+
+          ["Article 316", "Appointment and tenure of UPSC/SPSC members"],
+
+          ["Article 317", "Removal and suspension of UPSC/SPSC members"],
+
+          [
+            "Article 320",
+            "Functions of UPSC/SPSC, including recruitment and consultation on specified service matters",
+          ],
+
+          // =========================================================
+          // SC / ST / OBC CONSTITUTIONAL PROVISIONS
+          // =========================================================
+
+          [
+            "Article 338",
+            "National Commission for Scheduled Castes — constitutional body",
+          ],
+
+          [
+            "Article 338A",
+            "National Commission for Scheduled Tribes — constitutional body",
+          ],
+
+          [
+            "Article 338B",
+            "National Commission for Backward Classes — constitutional body",
+          ],
+
+          [
+            "Article 340",
+            "Commission to investigate conditions of socially and educationally backward classes",
+          ],
+
+          [
+            "Article 341",
+            "Scheduled Castes — President specifies list; Parliament can include/exclude communities",
+          ],
+
+          [
+            "Article 342",
+            "Scheduled Tribes — President specifies list; Parliament can include/exclude communities",
+          ],
+
+          [
+            "Article 342A",
+            "Socially and Educationally Backward Classes — constitutional framework for identification; important after 102nd and 105th Amendments",
+          ],
+
+          [
+            "Article 335",
+            "Claims of SCs and STs to services and posts consistent with administrative efficiency",
+          ],
+
+          // =========================================================
+          // RESERVATION / EWS
+          // =========================================================
+
+          [
+            "Article 15(4)",
+            "Special provisions for socially and educationally backward classes, SCs and STs",
+          ],
+
+          [
+            "Article 15(5)",
+            "Special provisions for socially and educationally backward classes, SCs and STs in educational institutions, including private institutions subject to constitutional exceptions",
+          ],
+
+          [
+            "Article 15(6)",
+            "Special provisions for Economically Weaker Sections, including reservation in educational institutions",
+          ],
+
+          [
+            "Article 16(4)",
+            "Reservation in public employment for backward classes inadequately represented",
+          ],
+
+          [
+            "Article 16(4A)",
+            "Reservation in promotion for SCs and STs, subject to constitutional conditions",
+          ],
+
+          ["Article 16(4B)", "Carry-forward of unfilled reserved vacancies"],
+
+          ["Article 16(6)", "EWS reservation in public employment"],
+
+          [
+            "Article 335",
+            "SC/ST claims in services and posts balanced with administrative efficiency",
+          ],
+
+          // =========================================================
+          // LANGUAGE / MINORITIES
+          // =========================================================
+
+          [
+            "Article 29",
+            "Protection of language, script and culture of any section of citizens",
+          ],
+
+          [
+            "Article 30",
+            "Minorities' right to establish and administer educational institutions",
+          ],
+
+          [
+            "Article 347",
+            "Special provision for recognition of language spoken by a substantial section of a State's population",
+          ],
+
+          ["Article 350B", "Special Officer for Linguistic Minorities"],
+
+          ["Article 351", "Directive for development and enrichment of Hindi"],
+
+          // =========================================================
+          // TRIBAL / SPECIAL STATE PROVISIONS
+          // =========================================================
+
+          [
+            "Article 244",
+            "Fifth and Sixth Schedule framework for Scheduled Areas and Tribal Areas",
+          ],
+
+          [
+            "Fifth Schedule",
+            "Administration and control of Scheduled Areas and Scheduled Tribes in specified States",
+          ],
+
+          [
+            "Sixth Schedule",
+            "Autonomous District and Regional Councils in tribal areas of Assam, Meghalaya, Tripura and Mizoram",
+          ],
+
+          [
+            "Article 275(1)",
+            "Grants for promoting welfare of Scheduled Tribes and administration of Scheduled Areas",
+          ],
+
+          [
+            "Article 371A",
+            "Nagaland — protection of customary law, religious/social practices and ownership/transfer of land and resources",
+          ],
+
+          ["Article 371F", "Sikkim — special constitutional provisions"],
+
+          [
+            "Article 371G",
+            "Mizoram — protection of customary law, religious/social practices and land",
+          ],
+
+          [
+            "Article 371J",
+            "Karnataka — special provisions for Hyderabad-Karnataka/Kalyana Karnataka region",
+          ],
+
+          // =========================================================
+          // CONSTITUTIONAL AMENDMENT — IMPORTANT AMENDMENTS
+          // =========================================================
+
+          [
+            "Article 368",
+            "Procedure for amendment of Constitution; special majority and, for specified provisions, ratification by at least half of States",
+          ],
+
+          [
+            "42nd Amendment",
+            "Major constitutional changes: Fundamental Duties, strengthened DPSPs, words Socialist/Secular/Integrity in Preamble, changes to Centre-State and judicial provisions",
+          ],
+
+          [
+            "44th Amendment",
+            "Emergency safeguards, restoration of civil liberties, Right to Property removed from Fundamental Rights, Articles 20 and 21 protected during Emergency",
+          ],
+
+          [
+            "73rd Amendment",
+            "Constitutional status to Panchayats; Part IX and Eleventh Schedule",
+          ],
+
+          [
+            "74th Amendment",
+            "Constitutional status to Municipalities; Part IXA and Twelfth Schedule",
+          ],
+
+          [
+            "86th Amendment",
+            "Article 21A; modification of Article 45; Fundamental Duty under Article 51A(k)",
+          ],
+
+          [
+            "91st Amendment",
+            "Council of Ministers capped at 15% of Lok Sabha/State Assembly strength; strengthened anti-defection framework",
+          ],
+
+          [
+            "101st Amendment",
+            "GST constitutional framework; Articles 246A, 269A and 279A",
+          ],
+
+          [
+            "102nd Amendment",
+            "Constitutional status to NCBC; Articles 338B and 342A",
+          ],
+
+          [
+            "103rd Amendment",
+            "10% EWS reservation through Articles 15(6) and 16(6)",
+          ],
+
+          [
+            "104th Amendment",
+            "Extended SC/ST reservation in Lok Sabha and State Assemblies; ended Anglo-Indian nominated representation",
+          ],
+
+          [
+            "105th Amendment",
+            "Restored States' power to identify socially and educationally backward classes after the 102nd Amendment controversy",
+          ],
+
+          [
+            "106th Amendment",
+            "Women's reservation in Lok Sabha, State Legislative Assemblies and Delhi Assembly, subject to delimitation/census-related commencement provisions",
+          ],
+
+          // =========================================================
+          // ANTI-DISCRIMINATION / SOCIAL JUSTICE
+          // =========================================================
+
+          [
+            "Article 17",
+            "Abolition of Untouchability; enforceable against private individuals as well as State",
+          ],
+
+          [
+            "Article 23",
+            "Prohibition of trafficking and forced labour; applies against State and private persons",
+          ],
+
+          ["Article 24", "Protection of children from hazardous employment"],
+
+          // =========================================================
+          // FUNDAMENTAL RIGHTS — DOCTRINAL ARTICLES
+          // =========================================================
+
+          [
+            "Article 14",
+            "Equality before law and equal protection; reasonable classification and arbitrariness jurisprudence",
+          ],
+
+          [
+            "Article 19",
+            "Six freedoms and constitutionally permitted reasonable restrictions",
+          ],
+
+          [
+            "Article 20",
+            "Three criminal-law safeguards: no ex-post-facto punishment, double jeopardy or self-incrimination",
+          ],
+
+          [
+            "Article 21",
+            "Life and personal liberty; privacy, dignity, livelihood, speedy trial and other judicially developed rights",
+          ],
+
+          ["Article 21A", "Right to education for children aged 6–14"],
+
+          [
+            "Article 25–28",
+            "Freedom of religion and constitutional limits on State-religion relations",
+          ],
+
+          // =========================================================
+          // HIGH-YIELD SCHEDULES
+          // =========================================================
+
+          [
+            "First Schedule",
+            "States and Union Territories; changes often accompany laws under Articles 2–4",
+          ],
+
+          ["Fifth Schedule", "Scheduled Areas and Scheduled Tribes"],
+
+          [
+            "Sixth Schedule",
+            "Autonomous Councils in specified North-Eastern tribal areas",
+          ],
+
+          [
+            "Seventh Schedule",
+            "Union, State and Concurrent Lists — core of Indian federalism",
+          ],
+
+          ["Eighth Schedule", "22 recognised languages"],
+
+          [
+            "Ninth Schedule",
+            "Laws placed in Ninth Schedule are not absolutely immune from judicial review; basic-structure limitation applies",
+          ],
+
+          ["Tenth Schedule", "Anti-defection law"],
+
+          ["Eleventh Schedule", "29 subjects for Panchayats"],
+
+          ["Twelfth Schedule", "18 subjects for Municipalities"],
+
+          // =========================================================
+          // PREAMBLE — HIGHLY RELEVANT TO MAINS
+          // =========================================================
+
+          [
+            "Preamble",
+            "Sovereign, Socialist, Secular, Democratic Republic; Justice, Liberty, Equality and Fraternity; part of Constitution and subject to Basic Structure doctrine",
+          ],
+
+          // =========================================================
+          // CONSTITUTIONAL / STATUTORY / EXECUTIVE BODIES
+          // =========================================================
+
+          [
+            "Article 76",
+            "Attorney-General for India — highest law officer of Union; constitutional post",
+          ],
+
+          [
+            "Article 165",
+            "Advocate-General — highest law officer of State; constitutional post",
+          ],
+
+          ["Article 324", "Election Commission — constitutional body"],
+
+          ["Article 280", "Finance Commission — constitutional body"],
+
+          ["Article 315", "UPSC/SPSC — constitutional bodies"],
+
+          ["Article 148", "CAG — constitutional authority"],
+
+          [
+            "Article 338–338B",
+            "NCSC, NCST and NCBC — constitutional commissions",
+          ],
+
+          // =========================================================
+          // FEDERAL / UNITARY FEATURES — MAINS
+          // =========================================================
+
+          [
+            "Article 1 + Article 3",
+            "India described as a Union of States; Parliament has significant power over territorial reorganisation",
+          ],
+
+          [
+            "Article 246 + Seventh Schedule",
+            "Legislative federalism through Union, State and Concurrent Lists",
+          ],
+
+          [
+            "Article 249 + Article 250",
+            "Exceptional Union legislative power over State List in national interest or during Emergency",
+          ],
+
+          [
+            "Article 252 + Article 253",
+            "Parliamentary legislation on State subjects with State consent or for implementing international obligations",
+          ],
+
+          [
+            "Article 254",
+            "Union law prevails over inconsistent State law on Concurrent List, subject to constitutional exceptions",
+          ],
+
+          [
+            "Article 263 + Article 279A",
+            "Institutional mechanisms for cooperative federalism — Inter-State Council and GST Council",
+          ],
+
+          // =========================================================
+          // MISCELLANEOUS VERY HIGH-YIELD
+          // =========================================================
+
+          [
+            "Article 300A",
+            "Right to Property is a constitutional right but not a Fundamental Right",
+          ],
+
+          [
+            "Article 301",
+            "Freedom of trade, commerce and intercourse throughout India",
+          ],
+
+          [
+            "Article 309–311",
+            "Recruitment, doctrine of pleasure and safeguards for civil servants",
+          ],
+
+          [
+            "Article 312",
+            "Creation of All India Services through Rajya Sabha resolution",
+          ],
+
+          [
+            "Article 361",
+            "Immunity of President and Governors from court proceedings while in office, subject to constitutional limitations",
+          ],
+
+          [
+            "Article 365",
+            "Failure to comply with Union directions may be relevant to Article 356",
+          ],
+
+          ["Article 366", "Important constitutional definitions"],
+
+          ["Article 367", "Rules of interpretation of the Constitution"],
+        ];
+
+        const DATA = [...DATA_PART_1, ...DATA_PART_2, ...DATA_PART_3];
+        // ---------------- State ----------------
+        let SETTINGS = { count: 10, seconds: 10 };
+        let quizSet = [];
+        let currentIndex = 0;
+        let score = 0;
+        let results = []; // {type, article, provision, questionType, yourAnswer}
+        let timer = null;
+        let timeLeft = 10;
+        let answered = false;
+        const RING_CIRC = 2 * Math.PI * 27;
+
+        // ---------------- Setup screen ----------------
+        const qCountChips = document.getElementById("qCountChips");
+        const counts = [5, 10, 15, 20, DATA.length];
+        counts.forEach((c) => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "chip" + (c === 10 ? " active" : "");
+          b.textContent = c === DATA.length ? "All (" + DATA.length + ")" : c;
+          b.addEventListener("click", () => {
+            document
+              .querySelectorAll("#qCountChips .chip")
+              .forEach((x) => x.classList.remove("active"));
+            b.classList.add("active");
+            SETTINGS.count = c;
+          });
+          qCountChips.appendChild(b);
+        });
+
+        const secInput = document.getElementById("secInput");
+        document.getElementById("secMinus").addEventListener("click", () => {
+          secInput.value = Math.max(3, parseInt(secInput.value || 10) - 1);
+        });
+        document.getElementById("secPlus").addEventListener("click", () => {
+          secInput.value = Math.min(60, parseInt(secInput.value || 10) + 1);
+        });
+
+        document.getElementById("startBtn").addEventListener("click", () => {
+          SETTINGS.seconds = Math.min(
+            60,
+            Math.max(3, parseInt(secInput.value) || 10),
+          );
+          startQuiz();
+        });
+
+        // ---------------- Quiz build ----------------
+        function shuffle(arr) {
+          const a = arr.slice();
+          for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+          }
+          return a;
+        }
+
+        function buildQuizSet(n) {
+          const pool = shuffle(DATA).slice(0, n);
+          return pool.map((item) => {
+            const [article, provision] = item;
+            const questionType = Math.random() < 0.5 ? "article" : "provision";
+            // distractors from the rest of DATA (not this item)
+            const others = shuffle(DATA.filter((d) => d[0] !== article));
+            let options, correctAnswer;
+            if (questionType === "article") {
+              // show article, ask provision
+              correctAnswer = provision;
+              options = shuffle([
+                provision,
+                ...others.slice(0, 3).map((o) => o[1]),
+              ]);
+            } else {
+              // show provision, ask article
+              correctAnswer = article;
+              options = shuffle([
+                article,
+                ...others.slice(0, 3).map((o) => o[0]),
+              ]);
+            }
+            return { article, provision, questionType, options, correctAnswer };
+          });
+        }
+
+        // ---------------- Quiz flow ----------------
+        const setupEl = document.getElementById("setup");
+        const quizEl = document.getElementById("quiz");
+        const resultsEl = document.getElementById("results");
+
+        function startQuiz() {
+          quizSet = buildQuizSet(SETTINGS.count);
+          currentIndex = 0;
+          score = 0;
+          results = [];
+          setupEl.classList.add("hidden");
+          resultsEl.classList.add("hidden");
+          quizEl.classList.remove("hidden");
+          document.getElementById("qTotal").textContent = quizSet.length;
+          renderQuestion();
+        }
+
+        function renderQuestion() {
+          answered = false;
+          const q = quizSet[currentIndex];
+          document.getElementById("qIndex").textContent = currentIndex + 1;
+          document.getElementById("liveScore").textContent = score;
+          document.getElementById("revealNote").textContent = "";
+          document.getElementById("revealNote").className = "reveal-note";
+          document.getElementById("skipBtn").classList.remove("hidden");
+          document.getElementById("skipBtn").textContent = "Skip →";
+
+          const qLabel = document.getElementById("qLabel");
+          const qMain = document.getElementById("qMain");
+          if (q.questionType === "article") {
+            qLabel.textContent = "WHICH PROVISION DOES THIS ARTICLE STATE?";
+            qMain.textContent = q.article;
+            qMain.className = "q-main type-article";
+          } else {
+            qLabel.textContent = "WHICH ARTICLE STATES THIS PROVISION?";
+            qMain.textContent = "“" + q.provision + "”";
+            qMain.className = "q-main type-provision";
+          }
+
+          const wrap = document.getElementById("optionsWrap");
+          wrap.innerHTML = "";
+          const keys = ["A", "B", "C", "D"];
+          q.options.forEach((opt, i) => {
+            const btn = document.createElement("button");
+            btn.className = "opt";
+            btn.innerHTML =
+              '<span class="k">' + keys[i] + "</span><span>" + opt + "</span>";
+            btn.addEventListener("click", () => selectAnswer(opt, btn));
+            wrap.appendChild(btn);
+          });
+
+          startTimer();
+        }
+
+        function startTimer() {
+          clearInterval(timer);
+          timeLeft = SETTINGS.seconds;
+          updateRing();
+          const tw = document.getElementById("timerWrap");
+          tw.classList.remove("urgent");
+          timer = setInterval(() => {
+            timeLeft--;
+            if (timeLeft <= 3) tw.classList.add("urgent");
+            updateRing();
+            if (timeLeft <= 0) {
+              clearInterval(timer);
+              handleTimeout();
+            }
+          }, 1000);
+        }
+
+        function updateRing() {
+          document.getElementById("tNum").textContent = Math.max(timeLeft, 0);
+          const ring = document.getElementById("ringFg");
+          const frac = Math.max(timeLeft, 0) / SETTINGS.seconds;
+          ring.style.strokeDasharray = RING_CIRC;
+          ring.style.strokeDashoffset = RING_CIRC * (1 - frac);
+        }
+
+        function selectAnswer(chosen, btnEl) {
+          if (answered) return;
+          answered = true;
+          clearInterval(timer);
+          const q = quizSet[currentIndex];
+          const isCorrect = chosen === q.correctAnswer;
+          lockOptions(q.correctAnswer, chosen);
+          const note = document.getElementById("revealNote");
+          document.getElementById("skipBtn").classList.add("hidden");
+          if (isCorrect) {
+            score++;
+            note.textContent = "Correct.";
+            note.classList.add("hit");
+            results.push({
+              type: "correct",
+              article: q.article,
+              provision: q.provision,
+              questionType: q.questionType,
+              correctAnswer: q.correctAnswer,
+            });
+          } else {
+            note.textContent = "Incorrect — correct answer shown.";
+            note.classList.add("miss");
+            results.push({
+              type: "wrong",
+              article: q.article,
+              provision: q.provision,
+              questionType: q.questionType,
+              correctAnswer: q.correctAnswer,
+              yourAnswer: chosen,
+            });
+          }
+          document.getElementById("liveScore").textContent = score;
+          setTimeout(advance, 1400);
+        }
+
+        function handleTimeout() {
+          if (answered) return;
+          answered = true;
+          const q = quizSet[currentIndex];
+          lockOptions(q.correctAnswer, null);
+          const note = document.getElementById("revealNote");
+          note.textContent = "Time's up — correct answer shown.";
+          note.classList.add("miss");
+          document.getElementById("skipBtn").classList.add("hidden");
+          results.push({
+            type: "missed",
+            article: q.article,
+            provision: q.provision,
+            questionType: q.questionType,
+            correctAnswer: q.correctAnswer,
+          });
+          setTimeout(advance, 1400);
+        }
+
+        document.getElementById("skipBtn").addEventListener("click", () => {
+          if (answered) return;
+          answered = true;
+          clearInterval(timer);
+          const q = quizSet[currentIndex];
+          lockOptions(q.correctAnswer, null);
+          const note = document.getElementById("revealNote");
+          note.textContent = "Skipped — correct answer shown.";
+          document.getElementById("skipBtn").classList.add("hidden");
+          results.push({
+            type: "skipped",
+            article: q.article,
+            provision: q.provision,
+            questionType: q.questionType,
+            correctAnswer: q.correctAnswer,
+          });
+          setTimeout(advance, 1400);
+        });
+
+        function lockOptions(correctAnswer, chosen) {
+          document.querySelectorAll("#optionsWrap .opt").forEach((btn) => {
+            btn.classList.add("locked");
+            const val = btn.querySelector("span:last-child").textContent;
+            if (val === correctAnswer) btn.classList.add("correct");
+            else if (val === chosen) btn.classList.add("incorrect");
+            else btn.classList.add("dim");
+          });
+        }
+
+        function advance() {
+          currentIndex++;
+          if (currentIndex >= quizSet.length) {
+            showResults();
+          } else {
+            renderQuestion();
+          }
+        }
+
+        // ---------------- Results ----------------
+        function showResults() {
+          quizEl.classList.add("hidden");
+          resultsEl.classList.remove("hidden");
+
+          const total = quizSet.length;
+          const pct = Math.round((score / total) * 100);
+          document.getElementById("finalScore").textContent =
+            score + "/" + total;
+          document.getElementById("finalPct").textContent = pct + "% correct";
+
+          let verdict = "Needs Revision";
+          if (pct >= 90) verdict = "Constitutional Scholar";
+          else if (pct >= 75) verdict = "Well Versed";
+          else if (pct >= 50) verdict = "Getting There";
+          document.getElementById("verdict").textContent = verdict;
+
+          const wrong = results.filter((r) => r.type === "wrong");
+          const missed = results.filter((r) => r.type === "missed");
+          const skipped = results.filter((r) => r.type === "skipped");
+          const correctCount = results.filter(
+            (r) => r.type === "correct",
+          ).length;
+
+          document.getElementById("tally").innerHTML =
+            tallyItem("hit", correctCount, "Correct") +
+            tallyItem("wrong", wrong.length, "Wrong") +
+            tallyItem("miss", missed.length, "Missed") +
+            tallyItem("skip", skipped.length, "Skipped");
+
+          renderReviewList("wrongList", wrong, true);
+          renderReviewList("missedList", missed, false);
+          renderReviewList("skippedList", skipped, false);
+
+          document.getElementById("wrongSection").style.display = wrong.length
+            ? ""
+            : "none";
+          document.getElementById("missedSection").style.display = missed.length
+            ? ""
+            : "none";
+          document.getElementById("skippedSection").style.display =
+            skipped.length ? "" : "none";
+        }
+
+        function tallyItem(cls, count, label) {
+          return (
+            '<div class="item"><span class="dot ' +
+            cls +
+            '"></span>' +
+            count +
+            " " +
+            label +
+            "</div>"
+          );
+        }
+
+        function renderReviewList(elId, list, showYourAnswer) {
+          const el = document.getElementById(elId);
+          if (list.length === 0) {
+            el.innerHTML =
+              '<div class="empty-note">None — clean sweep here.</div>';
+            return;
+          }
+          el.innerHTML = list
+            .map((r) => {
+              const qText =
+                r.questionType === "article"
+                  ? r.article + " — which is its provision?"
+                  : "“" + r.provision + "” — which Article is this?";
+              let lines =
+                '<div class="review-line correct"><span class="lbl">Correct</span>' +
+                r.correctAnswer +
+                "</div>";
+              if (showYourAnswer && r.yourAnswer) {
+                lines =
+                  '<div class="review-line your"><span class="lbl">You said</span>' +
+                  r.yourAnswer +
+                  "</div>" +
+                  lines;
+              }
+              return (
+                '<div class="review-item"><div class="review-q">' +
+                qText +
+                "</div>" +
+                lines +
+                "</div>"
+              );
+            })
+            .join("");
+        }
+
+        document
+          .getElementById("restartSameBtn")
+          .addEventListener("click", startQuiz);
+        document
+          .getElementById("restartNewBtn")
+          .addEventListener("click", () => {
+            resultsEl.classList.add("hidden");
+            setupEl.classList.remove("hidden");
+          });
+      })();
+    </script>
+  </body>
+</html>
